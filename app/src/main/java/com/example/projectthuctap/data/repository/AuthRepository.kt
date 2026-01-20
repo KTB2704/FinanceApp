@@ -1,8 +1,9 @@
-package data.repository
+package com.example.projectthuctap.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
-import data.model.User
+import com.example.projectthuctap.data.model.User
+import com.example.projectthuctap.data.session.SessionManager
 
 class AuthRepository {
 
@@ -39,6 +40,7 @@ class AuthRepository {
                         }
 
                         if (user.password == password) {
+                            SessionManager.userId = user.id
                             userLiveData.value = user
                             return
                         } else {

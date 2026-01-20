@@ -1,4 +1,4 @@
-package data.model
+package com.example.projectthuctap.data.model
 
 data class User(
     var id: String? = null,

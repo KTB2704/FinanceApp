@@ -1,9 +1,9 @@
-package viewmodel
+package com.example.projectthuctap.ui.auth
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import data.model.User
-import data.repository.AuthRepository
+import com.example.projectthuctap.data.model.User
+import com.example.projectthuctap.data.repository.AuthRepository
 
 class AuthViewModel : ViewModel() {
 

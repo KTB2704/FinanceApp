@@ -1,4 +1,4 @@
-package ui
+package com.example.projectthuctap.ui.auth.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.projectthuctap.MainActivity
 import com.example.projectthuctap.R
-import viewmodel.AuthViewModel
+import com.example.projectthuctap.ui.auth.register.RegisterFragment
+import com.example.projectthuctap.ui.auth.AuthViewModel
 
 class LoginFragment : Fragment() {
 

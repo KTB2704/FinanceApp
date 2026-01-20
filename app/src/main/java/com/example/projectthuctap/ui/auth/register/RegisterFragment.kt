@@ -1,4 +1,4 @@
-package ui
+package com.example.projectthuctap.ui.auth.register
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.projectthuctap.R
-import viewmodel.AuthViewModel
+import com.example.projectthuctap.ui.auth.AuthViewModel
 
 class RegisterFragment : Fragment() {
 
