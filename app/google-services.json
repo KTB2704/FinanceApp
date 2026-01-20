@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1072124288106",
+    "firebase_url": "https://projectthuctap-adda8-default-rtdb.firebaseio.com",
+    "project_id": "projectthuctap-adda8",
+    "storage_bucket": "projectthuctap-adda8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072124288106:android:e46d2b14389aa655603e13",
+        "android_client_info": {
+          "package_name": "com.example.projectthuctap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc6pMSpHGoeBnaLBksFbVm9Dzm0zMDVqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
