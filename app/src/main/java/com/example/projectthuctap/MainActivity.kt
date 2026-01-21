@@ -18,6 +18,11 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
 
+        if (savedInstanceState == null) {
+            loadFragment(HomeFragment())
+            bottomNav.selectedItemId = R.id.nav_home
+        }
+
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> loadFragment(HomeFragment())

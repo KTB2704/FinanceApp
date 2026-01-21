@@ -1,12 +1,16 @@
 package com.example.projectthuctap.data.repository
 
 import Category
+import android.util.Log
 import com.example.projectthuctap.data.model.Transaction
 import com.example.projectthuctap.data.session.SessionManager
 import com.google.firebase.database.FirebaseDatabase
-import java.util.*
+import java.util.Calendar
+import java.util.UUID
 
 class TransactionRepository {
+
+    private val db = FirebaseDatabase.getInstance()
 
     fun saveTransaction(
         amountStr: String,
@@ -17,7 +21,6 @@ class TransactionRepository {
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-
         val userId = SessionManager.userId ?: run {
             onError("Chưa đăng nhập")
             return
@@ -34,20 +37,13 @@ class TransactionRepository {
             return
         }
 
-        val db = FirebaseDatabase.getInstance()
         val budgetRef = db.getReference("users/$userId/profile/budget")
-        val transactionRef = db.getReference("transactions/$userId")
         val id = UUID.randomUUID().toString()
 
         budgetRef.get().addOnSuccessListener { snap ->
-
             val current = snap.getValue(Double::class.java) ?: 0.0
-            val newBudget = if (type == "expense") current - amount else current + amount
-
-            if (newBudget < 0) {
-                onError("Ngân sách không đủ")
-                return@addOnSuccessListener
-            }
+            val newBudget =
+                if (type == "expense") current - amount else current + amount
 
             val transaction = Transaction(
                 id = id,
@@ -70,5 +66,99 @@ class TransactionRepository {
                 .addOnSuccessListener { onSuccess() }
                 .addOnFailureListener { onError("Lưu giao dịch thất bại") }
         }
+    }
+
+    fun getCurrentBalance(onResult: (Double) -> Unit) {
+        val userId = SessionManager.userId ?: return
+
+        db.getReference("users/$userId/profile/budget")
+            .get()
+            .addOnSuccessListener {
+                onResult(it.getValue(Double::class.java) ?: 0.0)
+            }
+    }
+
+    fun getTransactionsByMonth(
+        month: Int,
+        year: Int,
+        onResult: (List<Transaction>) -> Unit
+    ) {
+        val userId = SessionManager.userId ?: run {
+            return
+        }
+
+        val start = Calendar.getInstance().apply {
+            clear()
+            set(year, month, 1, 0, 0, 0)
+        }.timeInMillis
+
+        val end = Calendar.getInstance().apply {
+            clear()
+            set(year, month + 1, 1, 0, 0, 0)
+        }.timeInMillis - 1
+
+
+        db.getReference("transactions/$userId")
+            .orderByChild("timestamp")
+            .startAt(start.toDouble())
+            .endAt(end.toDouble())
+            .get()
+            .addOnSuccessListener { snap ->
+                val list = mutableListOf<Transaction>()
+                snap.children.forEach {
+                    val t = it.getValue(Transaction::class.java)
+                    t?.let(list::add)
+                }
+                onResult(list)
+            }
+            .addOnFailureListener {
+                Log.e("DASH_REPO", "Firebase error", it)
+            }
+    }
+
+
+    fun getMonthlySummary(
+        month: Int,
+        year: Int,
+        onResult: (income: Double, expense: Double) -> Unit
+    ) {
+        getTransactionsByMonth(month, year) { list ->
+            var income = 0.0
+            var expense = 0.0
+
+            list.forEach {
+                when (it.type) {
+                    "income" -> income += it.amount
+                    "expense" -> expense += it.amount
+                }
+            }
+
+            onResult(income, expense)
+        }
+    }
+
+    fun getAllSummary(
+        onResult: (income: Double, expense: Double) -> Unit
+    ) {
+        val userId = SessionManager.userId ?: return
+
+        db.getReference("transactions/$userId")
+            .get()
+            .addOnSuccessListener { snap ->
+                var income = 0.0
+                var expense = 0.0
+
+                snap.children.forEach {
+                    val transaction = it.getValue(Transaction::class.java)
+                    if (transaction != null) {
+                        when (transaction.type) {
+                            "income" -> income += transaction.amount
+                            "expense" -> expense += transaction.amount
+                        }
+                    }
+                }
+
+                onResult(income, expense)
+            }
     }
 }

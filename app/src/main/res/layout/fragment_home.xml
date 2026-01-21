@@ -1,10 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,7 +12,383 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_constraint_radius2">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="74dp"
+                    android:layout_height="72dp"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/user_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="66dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_weight="1"
+                    android:text="Xin chào!"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="26dp"
+                    android:text="Tên tài khoản"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="55dp"
+                    android:layout_height="41dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/bg_constraint_radius"
+                    android:src="@drawable/search_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.526" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="56dp"
+                    android:layout_height="41dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_constraint_radius"
+                    android:src="@drawable/nofi_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.508" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_constraint_radius2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="118dp"
+                    android:background="@drawable/bg_constraint_radius3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:text="Tổng số dư"
+                        android:textColor="#8A8A8A"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:text="0đ"
+                        android:textColor="#1E3A5F"
+                        android:textSize="45sp" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Tổng thu"
+                        android:textColor="#8A8A8A"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:text="0đ"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2"
+                        tools:textColor="#2E7D32" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="123dp"
+                        android:text="Tổng chi"
+                        android:textColor="#8A8A8A"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtExpense"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="end"
+                        android:text="0đ"
+                        android:textAlignment="viewStart"
+                        android:textColor="#C62828"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/textView8"
+                        app:layout_constraintTop_toBottomOf="@id/textView8" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_constraint_radius2"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- HEADER -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tình hình thu chi"
+                        android:textColor="#1E3A5F"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- CHỌN THÁNG -->
+                    <LinearLayout
+                        android:id="@+id/layoutMonthFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_constraint_radius3"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/date_icon" />
+
+                        <TextView
+                            android:id="@+id/txtSelectedMonth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Tháng 1/2026"
+                            android:textColor="#607D8B"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- CONTENT -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <!-- BAR -->
+                    <LinearLayout
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:id="@+id/barIncome"
+                            android:layout_width="18dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="6dp"
+                            android:background="#2E7D32" />
+
+                        <View
+                            android:id="@+id/barExpense"
+                            android:layout_width="18dp"
+                            android:layout_height="100dp"
+                            android:background="#C62828" />
+                    </LinearLayout>
+
+                    <!-- INFO -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="35dp">
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:text="Thu"
+                                android:textColor="#8A8A8A"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/txtIncomeD"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="0 đ"
+                                android:textColor="#2E7D32"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp">
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:text="Chi"
+                                android:textColor="#8A8A8A"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/txtExpenseD"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="0 đ"
+                                android:textColor="#C62828"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginVertical="12dp"
+                            android:background="@drawable/grey_bg" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:text="Chênh lệch"
+                                android:textColor="#8A8A8A"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/txtBalance"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="0 đ"
+                                android:textColor="#1E3A5F"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_constraint_radius2"
+                android:orientation="horizontal"
+                android:padding="16dp" >
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="103dp"
+                    android:layout_height="132dp"
+                    android:src="@drawable/loudspeaker_icon" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:text="Tiền thưởng đang chờ đợi!"
+                        android:textColor="#8A8A8A"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="25dp"
+                        android:paddingRight="6dp"
+                        android:text="Mời bạn bè và kiếm tới 50k cho mỗi người dùng mới đăng ký."
+                        android:textColor="#8A8A8A" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
     </ScrollView>
 
 </FrameLayout>
