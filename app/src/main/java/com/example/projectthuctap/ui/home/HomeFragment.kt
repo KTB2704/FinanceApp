@@ -88,7 +88,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             txtExpense.text = formatMoney(it)
         }
 
-        // ===== DASHBOARD =====
         viewModel.incomeMonth.observe(viewLifecycleOwner) {
             txtIncomeD.text = formatMoney(it)
             updateBars()

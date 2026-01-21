@@ -75,6 +75,27 @@ class TransactionRepository {
         }
     }
 
+    fun getAllTransactions(
+        onResult: (List<Transaction>) -> Unit
+    ) {
+        val userId = SessionManager.userId ?: return
+
+        db.getReference("transactions/$userId")
+            .get()
+            .addOnSuccessListener { snap ->
+                val list = mutableListOf<Transaction>()
+                snap.children.forEach {
+                    val t = it.getValue(Transaction::class.java)
+                    t?.let(list::add)
+                }
+                onResult(list.sortedByDescending { it.timestamp })
+            }
+            .addOnFailureListener {
+                Log.e("TRANS_REPO", "Load all failed", it)
+            }
+    }
+
+
     fun getCurrentBalance(onResult: (Double) -> Unit) {
         val userId = SessionManager.userId ?: return
 
