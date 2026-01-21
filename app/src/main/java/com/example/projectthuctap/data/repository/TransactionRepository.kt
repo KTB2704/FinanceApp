@@ -42,8 +42,15 @@ class TransactionRepository {
 
         budgetRef.get().addOnSuccessListener { snap ->
             val current = snap.getValue(Double::class.java) ?: 0.0
+
+
             val newBudget =
                 if (type == "expense") current - amount else current + amount
+
+            if (newBudget < 0) {
+                onError("Ngân sách không đủ")
+                return@addOnSuccessListener
+            }
 
             val transaction = Transaction(
                 id = id,
