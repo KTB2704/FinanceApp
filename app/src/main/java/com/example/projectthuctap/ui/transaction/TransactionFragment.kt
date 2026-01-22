@@ -29,6 +29,8 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
     private lateinit var edtDateTime: EditText
     private lateinit var etNote: EditText
 
+    private lateinit var btnSave: Button
+
     private val calendar = Calendar.getInstance()
     private var isCategoryVisible = true
 
@@ -47,7 +49,7 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
 
         viewModel.loadCategories()
 
-        view.findViewById<View>(R.id.btnSave).setOnClickListener {
+        btnSave.setOnClickListener {
             viewModel.saveTransaction(
                 edtAmount.text.toString(),
                 etNote.text.toString(),
@@ -65,6 +67,7 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
         edtAmount = view.findViewById(R.id.edtAmount)
         edtDateTime = view.findViewById(R.id.edtDateTime)
         etNote = view.findViewById(R.id.etNote)
+        btnSave = view.findViewById(R.id.btnSave)
     }
 
     private fun setupRecyclerView() {

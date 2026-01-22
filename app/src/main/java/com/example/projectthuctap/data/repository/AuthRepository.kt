@@ -124,4 +124,12 @@ class AuthRepository {
                 }
             })
     }
+
+    fun logout(logoutLiveData: MutableLiveData<Boolean>) {
+        SessionManager.logOut()
+
+        logoutLiveData.value = true
+    }
+
+
 }

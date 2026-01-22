@@ -5,7 +5,7 @@ object SessionManager {
 
     fun isLoggedIn(): Boolean = userId != null
 
-    fun logout() {
+    fun logOut() {
         userId = null
     }
 }

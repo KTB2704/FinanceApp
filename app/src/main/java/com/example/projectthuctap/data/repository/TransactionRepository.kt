@@ -27,8 +27,13 @@ class TransactionRepository {
         }
 
         val amount = amountStr.toDoubleOrNull()
-        if (amount == null || amount <= 0) {
-            onError("Số tiền không hợp lệ")
+        if (amount == null) {
+            onError("Yêu cầu nhập số tiền")
+            return
+        }
+
+        if (amount <= 0) {
+            onError("Số tiền phải lớn hơn 0")
             return
         }
 

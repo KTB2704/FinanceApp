@@ -54,7 +54,7 @@
                 <ImageView
                     android:id="@+id/imgDate"
                     android:layout_width="50dp"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/date_icon" />

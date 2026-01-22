@@ -23,4 +23,21 @@ class HistoryViewModel : ViewModel() {
             expense.value = exp
         }
     }
+
+    fun loadByMonth(month: Int, year: Int){
+        repo.getTransactionsByMonth(month, year){
+            list -> transactions.value = list
+
+            var  inc = 0.0
+            var  exp = 0.0
+
+            list.forEach {
+                if (it.type == "income") inc += it.amount
+                else exp += it.amount
+            }
+
+            income.value = inc
+            expense.value = exp
+        }
+    }
 }

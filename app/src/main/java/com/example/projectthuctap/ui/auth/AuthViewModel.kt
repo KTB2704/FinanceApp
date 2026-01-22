@@ -13,6 +13,8 @@ class AuthViewModel : ViewModel() {
     val errorLiveData = MutableLiveData<String>()
     val registerSuccesLiveData = MutableLiveData<Boolean>()
 
+    val logoutSuccessLiveData = MutableLiveData<Boolean>()
+
     fun login(email: String, password: String) {
         repository.login(email, password, userLiveData, errorLiveData)
     }
@@ -26,5 +28,9 @@ class AuthViewModel : ViewModel() {
             registerSuccesLiveData,
             errorLiveData
         )
+    }
+
+    fun logout() {
+        repository.logout(logoutSuccessLiveData)
     }
 }
