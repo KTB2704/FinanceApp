@@ -100,6 +100,36 @@ class TransactionRepository {
             }
     }
 
+    fun getTransactionsFirebase(
+        onSuccess: (List<Transaction>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+
+        val userId = SessionManager.userId ?: run {
+            onError("Chưa đăng nhập")
+            return
+        }
+
+        db.getReference("transactions")
+            .child(userId)
+            .get()
+            .addOnSuccessListener { snapshot ->
+
+                val list = mutableListOf<Transaction>()
+
+                snapshot.children.forEach {
+                    val transaction = it.getValue(Transaction::class.java)
+                    transaction?.let { t -> list.add(t) }
+                }
+
+                onSuccess(list)
+            }
+            .addOnFailureListener {
+                onError("Lỗi tải dữ liệu")
+            }
+    }
+
+
 
     fun getCurrentBalance(onResult: (Double) -> Unit) {
         val userId = SessionManager.userId ?: return

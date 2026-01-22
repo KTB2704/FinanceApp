@@ -3,6 +3,7 @@ package com.example.projectthuctap.ui.transaction
 import Category
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -10,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.projectthuctap.MainActivity
 import com.example.projectthuctap.R
 import com.example.projectthuctap.ui.adapter.CategoryAdapter
+import com.example.projectthuctap.ui.chatbot.ChatBotFragment
 import com.example.projectthuctap.viewmodel.TransactionViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,6 +34,7 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
 
     private lateinit var btnSave: Button
 
+    private lateinit var btnChatBot: ImageView
     private val calendar = Calendar.getInstance()
     private var isCategoryVisible = true
 
@@ -56,6 +60,20 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
                 calendar.timeInMillis
             )
         }
+
+        btnChatBot.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, ChatBotFragment())
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 
     private fun bindView(view: View) {
@@ -68,6 +86,7 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
         edtDateTime = view.findViewById(R.id.edtDateTime)
         etNote = view.findViewById(R.id.etNote)
         btnSave = view.findViewById(R.id.btnSave)
+        btnChatBot = view.findViewById(R.id.btnChatBot)
     }
 
     private fun setupRecyclerView() {
