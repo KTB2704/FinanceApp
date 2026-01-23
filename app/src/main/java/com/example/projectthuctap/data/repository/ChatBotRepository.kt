@@ -1,14 +1,10 @@
 package com.example.projectthuctap.data.repository
 
 import android.util.Log
-import com.example.projectthuctap.data.model.ChatBotRequest
-import com.example.projectthuctap.data.model.ChatBotResponse
+import com.example.projectthuctap.data.model.chatbot.ChatBotRequest
 import com.example.projectthuctap.data.model.Transaction
 import com.example.projectthuctap.data.remote.RetrofitClient
 import com.example.projectthuctap.data.session.SessionManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import okhttp3.ResponseBody
 
 class ChatBotRepository {
 
@@ -33,39 +29,11 @@ class ChatBotRepository {
 
             if (response.isSuccessful) {
 
-                // 🔥 Đọc RAW JSON từ server
-                val rawBody: ResponseBody? = response.body() as? ResponseBody
-                val raw = rawBody?.string()
+                val body = response.body()
 
-                Log.e("API_DEBUG", "RAW RESPONSE: $raw")
+                Log.d("API_DEBUG", "Parsed body: $body")
 
-                if (raw.isNullOrEmpty()) {
-                    return "Server trả về rỗng"
-                }
-
-                val gson = Gson()
-
-                return try {
-
-                    // 🔥 Thử parse dạng List trước
-                    val listType = object : TypeToken<List<ChatBotResponse>>() {}.type
-                    val list: List<ChatBotResponse> = gson.fromJson(raw, listType)
-
-                    list.firstOrNull()?.reply ?: "Bot không trả lời"
-
-                } catch (e: Exception) {
-
-                    Log.e("API_DEBUG", "Parse List lỗi -> thử parse Object")
-
-                    try {
-                        // 🔥 Nếu không phải List thì parse Object
-                        val obj = gson.fromJson(raw, ChatBotResponse::class.java)
-                        obj.reply ?: "Bot không trả lời"
-                    } catch (ex: Exception) {
-                        Log.e("API_DEBUG", "Parse Object cũng lỗi")
-                        "Không parse được JSON"
-                    }
-                }
+                body?.reply ?: "Bot không trả lời"
 
             } else {
 
@@ -76,7 +44,9 @@ class ChatBotRepository {
             }
 
         } catch (e: Exception) {
+
             Log.e("API_DEBUG", "Exception: ${e.message}", e)
+
             "Lỗi kết nối server"
         }
     }

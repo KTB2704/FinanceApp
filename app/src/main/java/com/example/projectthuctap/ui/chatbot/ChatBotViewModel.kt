@@ -1,7 +1,7 @@
 package com.example.projectthuctap.ui.chatbot
 
 import androidx.lifecycle.*
-import com.example.projectthuctap.data.model.ChatBotMessage
+import com.example.projectthuctap.data.model.chatbot.ChatBotMessage
 import com.example.projectthuctap.data.repository.ChatBotRepository
 import com.example.projectthuctap.data.repository.TransactionRepository
 import kotlinx.coroutines.launch

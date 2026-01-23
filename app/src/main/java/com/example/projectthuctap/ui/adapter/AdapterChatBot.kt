@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projectthuctap.R
-import com.example.projectthuctap.data.model.ChatBotMessage
+import com.example.projectthuctap.data.model.chatbot.ChatBotMessage
 
 class AdapterChatBot : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

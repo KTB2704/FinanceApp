@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,8 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
     private lateinit var rvChat: RecyclerView
     private lateinit var edtMessage: EditText
     private lateinit var btnSend: Button
+
+    private lateinit var btnBack: ImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,6 +51,10 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
             }
         }
 
+        btnBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
         observeData()
     }
 
@@ -55,6 +62,7 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
         rvChat = view.findViewById(R.id.rvChat)
         edtMessage = view.findViewById(R.id.edtMessage)
         btnSend = view.findViewById(R.id.btnSend)
+        btnBack = view.findViewById(R.id.btnBack)
     }
 
     private fun observeData() {

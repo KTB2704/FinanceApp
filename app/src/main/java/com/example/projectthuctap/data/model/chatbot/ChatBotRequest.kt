@@ -1,4 +1,4 @@
-package com.example.projectthuctap.data.model
+package com.example.projectthuctap.data.model.chatbot
 
 import com.example.projectthuctap.data.model.Transaction
 

@@ -20,7 +20,7 @@
             android:paddingTop="20dp">
 
             <ImageView
-                android:id="@+id/imageView8"
+                android:id="@+id/btnBack"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/back_icon"
@@ -41,7 +41,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/imageView8"
+                app:layout_constraintStart_toStartOf="@+id/btnBack"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:gravity="center" />
         </androidx.constraintlayout.widget.ConstraintLayout>

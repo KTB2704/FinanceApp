@@ -63,13 +63,13 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
 
         btnChatBot.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, ChatBotFragment())
                 .setCustomAnimations(
                     R.anim.slide_in_right,
                     R.anim.slide_out_left,
                     R.anim.slide_in_left,
                     R.anim.slide_out_right
                 )
+                .replace(R.id.fragment_container, ChatBotFragment())
                 .addToBackStack(null)
                 .commit()
         }

@@ -1,4 +1,4 @@
-package com.example.projectthuctap.data.model
+package com.example.projectthuctap.data.model.chatbot
 
 data class ChatBotMessage(
     val message: String,
