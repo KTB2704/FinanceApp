@@ -1,10 +1,12 @@
 package com.example.projectthuctap.viewmodel
 
 import Category
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projectthuctap.data.repository.CategoryRepository
 import com.example.projectthuctap.data.repository.TransactionRepository
+import kotlin.math.abs
 
 class TransactionViewModel : ViewModel() {
 
@@ -18,6 +20,16 @@ class TransactionViewModel : ViewModel() {
     val transactionType = MutableLiveData("expense")
     val message = MutableLiveData<String>()
     val success = MutableLiveData<Boolean>()
+
+    private val _adjustPreview = MutableLiveData<Pair<Double, String>>()
+
+    val adjustPreview: LiveData<Pair<Double, String>> = _adjustPreview
+
+    private var currentBalance: Double = 0.0
+
+    private val _totalBalance = MutableLiveData<Double>()
+    val totalBalance: LiveData<Double> = _totalBalance
+
 
     fun loadCategories() {
         categoryRepo.loadCategories(
@@ -45,6 +57,12 @@ class TransactionViewModel : ViewModel() {
         filteredCategories.value = list.filter { it.type == type }
     }
 
+    private fun filterCategories(type: String) {
+        val list = allCategories.value ?: return
+        filteredCategories.value = list.filter { it.type == type }
+    }
+
+
     fun saveTransaction(
         amount: String,
         note: String,
@@ -64,4 +82,40 @@ class TransactionViewModel : ViewModel() {
         )
 
     }
+
+    fun setCurrentBalance(balance: Double) {
+        currentBalance = balance
+    }
+
+    fun loadCurrentBalance() {
+        repo.getCurrentBalance { balance ->
+            currentBalance = balance
+            _totalBalance.value = balance
+        }
+    }
+
+    fun calculateAdjust(realBalanceStr: String) {
+
+        val realBalance = realBalanceStr
+            .replace("đ", "")
+            .replace(".", "")
+            .replace(",", "")
+            .trim()
+            .toDoubleOrNull() ?: return
+
+        val diff = realBalance - currentBalance
+
+        if (diff == 0.0) {
+            _adjustPreview.value = 0.0 to "none"
+            return
+        }
+
+        val type = if (diff > 0) "income" else "expense"
+
+        _adjustPreview.value = kotlin.math.abs(diff) to type
+    }
+
+
+
+
 }

@@ -10,6 +10,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.projectthuctap.R
+import com.example.projectthuctap.ui.chatbot.ChatBotFragment
+import com.example.projectthuctap.ui.transaction.AdjustTransactionFragment
 import java.text.NumberFormat
 import java.util.Calendar
 import java.util.Locale
@@ -50,6 +52,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             cal.get(Calendar.MONTH),
             cal.get(Calendar.YEAR)
         )
+
+        txtTotal.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
+                .replace(R.id.fragment_container, AdjustTransactionFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
 

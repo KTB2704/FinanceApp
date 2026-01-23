@@ -73,7 +73,6 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
                 .addToBackStack(null)
                 .commit()
         }
-
     }
 
     private fun bindView(view: View) {

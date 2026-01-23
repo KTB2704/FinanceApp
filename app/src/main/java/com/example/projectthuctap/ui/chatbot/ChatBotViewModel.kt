@@ -16,7 +16,6 @@ class ChatBotViewModel : ViewModel() {
 
     fun sendMessage(text: String) {
 
-        // Thêm message user
         val updatedList = _messages.value!!.toMutableList()
         updatedList.add(ChatBotMessage(text, true))
         _messages.value = updatedList
