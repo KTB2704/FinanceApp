@@ -11,14 +11,17 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.projectthuctap.R
 import com.example.projectthuctap.databinding.FragmentAdjustTransactionBinding
 import com.example.projectthuctap.ui.adapter.CategoryAdapter
 import com.example.projectthuctap.viewmodel.AdjustTransactionViewModel
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class AdjustTransactionFragment : Fragment() {
 
@@ -70,7 +73,7 @@ class AdjustTransactionFragment : Fragment() {
             if (viewModel.selectedCategory.value == null) {
                 Toast.makeText(
                     requireContext(),
-                    "Vui lòng chọn hạng mục",
+                    getString(R.string.please_choose_category),
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
@@ -86,12 +89,10 @@ class AdjustTransactionFragment : Fragment() {
 
     private fun setupSpinner() {
 
-        val types = listOf("Thu", "Chi")
-
-        val adapter = ArrayAdapter(
+        val adapter = ArrayAdapter.createFromResource(
             requireContext(),
-            android.R.layout.simple_spinner_item,
-            types
+            R.array.transaction_types,
+            android.R.layout.simple_spinner_item
         )
 
         adapter.setDropDownViewResource(
@@ -157,8 +158,8 @@ class AdjustTransactionFragment : Fragment() {
     private fun setDefaultDateTime() {
         binding.edtDateTime.setText(
             SimpleDateFormat(
-                "dd/MM/yyyy HH:mm",
-                Locale.getDefault()
+                getString(R.string.date_time_format),
+                Locale("vi", "VN")
             ).format(calendar.time)
         )
     }
@@ -208,7 +209,8 @@ class AdjustTransactionFragment : Fragment() {
             adjustAmount = amount
 
             if (amount == 0.0) {
-                binding.txtAmount.text = "0đ"
+                binding.txtAmount.text =
+                    getString(R.string.money_zero)
                 binding.txtColor.text = ""
                 return@observe
             }
@@ -217,26 +219,40 @@ class AdjustTransactionFragment : Fragment() {
 
             if (type == "income") {
 
-                binding.txtColor.text = "Đã thu"
+                binding.txtColor.text =
+                    getString(R.string.already_income)
 
                 binding.txtColor.setTextColor(
-                    resources.getColor(android.R.color.holo_green_dark, null)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        android.R.color.holo_green_dark
+                    )
                 )
 
                 binding.txtAmount.setTextColor(
-                    resources.getColor(android.R.color.holo_green_dark, null)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        android.R.color.holo_green_dark
+                    )
                 )
 
             } else {
 
-                binding.txtColor.text = "Đã chi"
+                binding.txtColor.text =
+                    getString(R.string.already_expense)
 
                 binding.txtColor.setTextColor(
-                    resources.getColor(android.R.color.holo_red_dark, null)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        android.R.color.holo_red_dark
+                    )
                 )
 
                 binding.txtAmount.setTextColor(
-                    resources.getColor(android.R.color.holo_red_dark, null)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        android.R.color.holo_red_dark
+                    )
                 )
             }
         }
@@ -245,7 +261,9 @@ class AdjustTransactionFragment : Fragment() {
 
             if (category == null) {
 
-                binding.tvSelectedName.text = "Chọn hạng mục"
+                binding.tvSelectedName.text =
+                    getString(R.string.choose_category)
+
                 binding.imgSelectedIcon.setImageDrawable(null)
                 binding.rvCategory.visibility = View.VISIBLE
                 return@observe
@@ -271,7 +289,7 @@ class AdjustTransactionFragment : Fragment() {
 
                 Toast.makeText(
                     requireContext(),
-                    "Đã lưu giao dịch",
+                    getString(R.string.transaction_saved),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -292,7 +310,11 @@ class AdjustTransactionFragment : Fragment() {
     }
 
     private fun formatMoney(amount: Double): String {
-        return String.format("%,.0fđ", amount)
+        return String.format(
+            Locale("vi", "VN"),
+            getString(R.string.money_format1),
+            amount
+        )
     }
 
     override fun onDestroyView() {

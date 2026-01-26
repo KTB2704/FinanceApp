@@ -1,6 +1,5 @@
 package com.example.projectthuctap.ui.transaction
 
-import Category
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -76,7 +76,8 @@ class TransactionFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.rvCategory.layoutManager = GridLayoutManager(requireContext(), 4)
+        binding.rvCategory.layoutManager =
+            GridLayoutManager(requireContext(), 4)
     }
 
     private fun setupToggle() {
@@ -97,7 +98,9 @@ class TransactionFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    val type = if (position == 0) "expense" else "income"
+                    val type =
+                        if (position == 0) "expense" else "income"
+
                     updateAmountColor(type)
                     viewModel.setTransactionType(type)
                 }
@@ -108,10 +111,10 @@ class TransactionFragment : Fragment() {
 
     private fun observeViewModel() {
 
-        viewModel.filteredCategories.observe(viewLifecycleOwner) {
+        viewModel.filteredCategories.observe(viewLifecycleOwner) { list ->
             binding.rvCategory.adapter =
-                CategoryAdapter(requireContext(), it) {
-                    viewModel.selectCategory(it)
+                CategoryAdapter(requireContext(), list) { category ->
+                    viewModel.selectCategory(category)
                 }
         }
 
@@ -124,25 +127,28 @@ class TransactionFragment : Fragment() {
 
             binding.tvSelectedName.text = category.name
 
-            val iconRes = resources.getIdentifier(
+            val iconRes = requireContext().resources.getIdentifier(
                 category.icon,
                 "drawable",
                 requireContext().packageName
             )
 
-            if (iconRes != 0)
+            if (iconRes != 0) {
                 binding.imgSelectedIcon.setImageResource(iconRes)
+            }
 
             binding.rvCategory.visibility = View.GONE
             isCategoryVisible = false
         }
 
-        viewModel.message.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        viewModel.message.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.success.observe(viewLifecycleOwner) {
-            clearForm()
+        viewModel.success.observe(viewLifecycleOwner) { success ->
+            if (success == true) {
+                clearForm()
+            }
         }
     }
 
@@ -150,17 +156,29 @@ class TransactionFragment : Fragment() {
 
         if (type == "expense") {
             binding.edtAmount.setTextColor(
-                resources.getColor(android.R.color.holo_red_dark, null)
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_red_dark
+                )
             )
             binding.edtAmount.setHintTextColor(
-                resources.getColor(android.R.color.holo_red_light, null)
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_red_light
+                )
             )
         } else {
             binding.edtAmount.setTextColor(
-                resources.getColor(android.R.color.holo_green_dark, null)
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_green_dark
+                )
             )
             binding.edtAmount.setHintTextColor(
-                resources.getColor(android.R.color.holo_green_light, null)
+                ContextCompat.getColor(
+                    requireContext(),
+                    android.R.color.holo_green_light
+                )
             )
         }
     }
@@ -194,23 +212,32 @@ class TransactionFragment : Fragment() {
     }
 
     private fun setDefaultDateTime() {
+        val formatter = SimpleDateFormat(
+            getString(R.string.date_time_format),
+            Locale("vi", "VN")
+        )
+
         binding.edtDateTime.setText(
-            SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-                .format(calendar.time)
+            formatter.format(calendar.time)
         )
     }
 
     private fun resetSelectedCategory() {
-        binding.tvSelectedName.text = "Chọn hạng mục"
+        binding.tvSelectedName.text =
+            getString(R.string.choose_category)
+
         binding.imgSelectedIcon.setImageDrawable(null)
+
         binding.rvCategory.visibility = View.VISIBLE
         isCategoryVisible = true
     }
 
     private fun clearForm() {
-        binding.edtAmount.setText("")
-        binding.etNote.setText("")
+        binding.edtAmount.text?.clear()
+        binding.etNote.text?.clear()
+
         resetSelectedCategory()
+
         calendar.timeInMillis = System.currentTimeMillis()
         setDefaultDateTime()
     }

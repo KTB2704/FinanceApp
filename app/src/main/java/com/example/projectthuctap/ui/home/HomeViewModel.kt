@@ -1,6 +1,5 @@
 package com.example.projectthuctap.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projectthuctap.data.repository.TransactionRepository

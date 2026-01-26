@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray_white">#D6D6D6</color>
     <color name="pastel">#D7CCC8</color>
+    <color name="income_color">#2E7D32</color>
+    <color name="expense_color">#E53935</color>
 </resources>

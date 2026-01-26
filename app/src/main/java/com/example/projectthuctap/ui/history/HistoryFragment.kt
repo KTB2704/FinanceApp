@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.projectthuctap.R
 import com.example.projectthuctap.databinding.FragmentHistoryBinding
 import com.example.projectthuctap.ui.adapter.HistoryAdapter
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -42,13 +43,14 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = HistoryAdapter(requireContext())
+        adapter = HistoryAdapter()
 
         binding.rvHistoryT.layoutManager =
             LinearLayoutManager(requireContext())
 
         binding.rvHistoryT.adapter = adapter
     }
+
 
     private fun setupClick() {
         binding.imgDate.setOnClickListener {
@@ -63,17 +65,20 @@ class HistoryFragment : Fragment() {
         }
 
         viewModel.income.observe(viewLifecycleOwner) {
-            binding.txtIncomeHistory.text = "${it.toInt()}đ"
+            binding.txtIncomeHistory.text =
+                getString(R.string.money_format, it.toInt())
+
         }
 
         viewModel.expense.observe(viewLifecycleOwner) {
-            binding.txtIncomExpense.text = "${it.toInt()}đ"
+            binding.txtIncomExpense.text =
+                getString(R.string.money_format, it.toInt())
         }
     }
 
     private fun showMonthPicker() {
         val picker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Chọn tháng")
+            .setTitleText(getString(R.string.select_month))
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .build()
 

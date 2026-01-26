@@ -52,7 +52,7 @@ class AdapterChatBot : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    inner class UserViewHolder(view: View) :
+    class UserViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
 
         private val tvMessage: TextView = view.findViewById(R.id.tvMessage)
@@ -62,7 +62,7 @@ class AdapterChatBot : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    inner class BotViewHolder(view: View) :
+    class BotViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
 
         private val tvMessage: TextView = view.findViewById(R.id.tvMessage)

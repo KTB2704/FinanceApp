@@ -1,12 +1,10 @@
 package com.example.projectthuctap.viewmodel
 
 import Category
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projectthuctap.data.repository.CategoryRepository
 import com.example.projectthuctap.data.repository.TransactionRepository
-import kotlin.math.abs
 
 class TransactionViewModel : ViewModel() {
 
@@ -20,12 +18,6 @@ class TransactionViewModel : ViewModel() {
     val transactionType = MutableLiveData("expense")
     val message = MutableLiveData<String>()
     val success = MutableLiveData<Boolean>()
-
-    private var currentBalance: Double = 0.0
-
-    private val _totalBalance = MutableLiveData<Double>()
-    val totalBalance: LiveData<Double> = _totalBalance
-
 
     fun loadCategories() {
         categoryRepo.loadCategories(
@@ -80,18 +72,6 @@ class TransactionViewModel : ViewModel() {
         )
     }
 
-    fun loadCurrentBalance() {
-        repo.getCurrentBalance { balance ->
-            currentBalance = balance
-            _totalBalance.value = balance
-        }
-    }
-
-
-    fun resetForm() {
-        selectedCategory.value = null
-        transactionType.value = "expense"
-    }
 
 
 }

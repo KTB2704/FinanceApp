@@ -126,8 +126,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateMonthText(month: Int, year: Int) {
-        binding.txtSelectedMonth.text = "Tháng ${month + 1}/$year"
+        binding.txtSelectedMonth.text =
+            getString(R.string.month_year_format, month + 1, year)
     }
+
 
     private fun updateBars() {
         val income = viewModel.incomeMonth.value ?: 0.0
@@ -161,8 +163,15 @@ class HomeFragment : Fragment() {
     private fun dpToPx(dp: Int): Int =
         (dp * resources.displayMetrics.density).toInt()
 
-    private fun formatMoney(value: Double): String =
-        NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(value)
+    private fun formatMoney(value: Double): String {
+        val locale = Locale.Builder()
+            .setLanguage("vi")
+            .setRegion("VN")
+            .build()
+
+        return NumberFormat.getCurrencyInstance(locale).format(value)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,6 +1,5 @@
 package com.example.projectthuctap.data.repository
 
-import android.util.Log
 import com.example.projectthuctap.data.session.SessionManager
 import com.google.firebase.database.FirebaseDatabase
 
