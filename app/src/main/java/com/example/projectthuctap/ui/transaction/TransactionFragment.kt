@@ -3,47 +3,47 @@ package com.example.projectthuctap.ui.transaction
 import Category
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.projectthuctap.MainActivity
 import com.example.projectthuctap.R
+import com.example.projectthuctap.databinding.FragmentTransactionBinding
 import com.example.projectthuctap.ui.adapter.CategoryAdapter
 import com.example.projectthuctap.ui.chatbot.ChatBotFragment
 import com.example.projectthuctap.viewmodel.TransactionViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TransactionFragment : Fragment(R.layout.fragment_transaction) {
+class TransactionFragment : Fragment() {
+
+    private var _binding: FragmentTransactionBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: TransactionViewModel
 
-    private lateinit var rvCategory: RecyclerView
-    private lateinit var imgSelectedIcon: ImageView
-    private lateinit var tvSelectedName: TextView
-    private lateinit var layoutSelectedCategory: View
-    private lateinit var spinnerType: Spinner
-    private lateinit var edtAmount: EditText
-    private lateinit var edtDateTime: EditText
-    private lateinit var etNote: EditText
-
-    private lateinit var btnSave: Button
-
-    private lateinit var btnChatBot: ImageView
     private val calendar = Calendar.getInstance()
     private var isCategoryVisible = true
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentTransactionBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
 
-        bindView(view)
         setupRecyclerView()
         setupToggle()
         setupTypeSpinner()
@@ -53,15 +53,15 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
 
         viewModel.loadCategories()
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             viewModel.saveTransaction(
-                edtAmount.text.toString(),
-                etNote.text.toString(),
+                binding.edtAmount.text.toString(),
+                binding.etNote.text.toString(),
                 calendar.timeInMillis
             )
         }
 
-        btnChatBot.setOnClickListener {
+        binding.btnChatBot.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(
                     R.anim.slide_in_right,
@@ -75,32 +75,20 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
         }
     }
 
-    private fun bindView(view: View) {
-        rvCategory = view.findViewById(R.id.rvCategory)
-        imgSelectedIcon = view.findViewById(R.id.imgSelectedIcon)
-        tvSelectedName = view.findViewById(R.id.tvSelectedName)
-        layoutSelectedCategory = view.findViewById(R.id.layoutSelectedCategory)
-        spinnerType = view.findViewById(R.id.spinnerItem)
-        edtAmount = view.findViewById(R.id.edtAmount)
-        edtDateTime = view.findViewById(R.id.edtDateTime)
-        etNote = view.findViewById(R.id.etNote)
-        btnSave = view.findViewById(R.id.btnSave)
-        btnChatBot = view.findViewById(R.id.btnChatBot)
-    }
-
     private fun setupRecyclerView() {
-        rvCategory.layoutManager = GridLayoutManager(requireContext(), 4)
+        binding.rvCategory.layoutManager = GridLayoutManager(requireContext(), 4)
     }
 
     private fun setupToggle() {
-        layoutSelectedCategory.setOnClickListener {
+        binding.layoutSelectedCategory.setOnClickListener {
             isCategoryVisible = !isCategoryVisible
-            rvCategory.visibility = if (isCategoryVisible) View.VISIBLE else View.GONE
+            binding.rvCategory.visibility =
+                if (isCategoryVisible) View.VISIBLE else View.GONE
         }
     }
 
     private fun setupTypeSpinner() {
-        spinnerType.onItemSelectedListener =
+        binding.spinnerItem.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
 
                 override fun onItemSelected(
@@ -121,26 +109,31 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
     private fun observeViewModel() {
 
         viewModel.filteredCategories.observe(viewLifecycleOwner) {
-            rvCategory.adapter = CategoryAdapter(requireContext(), it) {
-                viewModel.selectCategory(it)
-            }
+            binding.rvCategory.adapter =
+                CategoryAdapter(requireContext(), it) {
+                    viewModel.selectCategory(it)
+                }
         }
 
         viewModel.selectedCategory.observe(viewLifecycleOwner) { category ->
+
             if (category == null) {
                 resetSelectedCategory()
                 return@observe
             }
 
-            tvSelectedName.text = category.name
+            binding.tvSelectedName.text = category.name
+
             val iconRes = resources.getIdentifier(
                 category.icon,
                 "drawable",
                 requireContext().packageName
             )
-            if (iconRes != 0) imgSelectedIcon.setImageResource(iconRes)
 
-            rvCategory.visibility = View.GONE
+            if (iconRes != 0)
+                binding.imgSelectedIcon.setImageResource(iconRes)
+
+            binding.rvCategory.visibility = View.GONE
             isCategoryVisible = false
         }
 
@@ -154,29 +147,33 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
     }
 
     private fun updateAmountColor(type: String) {
+
         if (type == "expense") {
-            edtAmount.setTextColor(
+            binding.edtAmount.setTextColor(
                 resources.getColor(android.R.color.holo_red_dark, null)
             )
-            edtAmount.setHintTextColor(
+            binding.edtAmount.setHintTextColor(
                 resources.getColor(android.R.color.holo_red_light, null)
             )
         } else {
-            edtAmount.setTextColor(
+            binding.edtAmount.setTextColor(
                 resources.getColor(android.R.color.holo_green_dark, null)
             )
-            edtAmount.setHintTextColor(
+            binding.edtAmount.setHintTextColor(
                 resources.getColor(android.R.color.holo_green_light, null)
             )
         }
     }
 
     private fun setupDateTimePicker() {
-        edtDateTime.setOnClickListener {
+
+        binding.edtDateTime.setOnClickListener {
+
             DatePickerDialog(
                 requireContext(),
                 { _, y, m, d ->
                     calendar.set(y, m, d)
+
                     TimePickerDialog(
                         requireContext(),
                         { _, h, min ->
@@ -197,24 +194,29 @@ class TransactionFragment : Fragment(R.layout.fragment_transaction) {
     }
 
     private fun setDefaultDateTime() {
-        edtDateTime.setText(
+        binding.edtDateTime.setText(
             SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
                 .format(calendar.time)
         )
     }
 
     private fun resetSelectedCategory() {
-        tvSelectedName.text = "Chọn hạng mục"
-        imgSelectedIcon.setImageDrawable(null)
-        rvCategory.visibility = View.VISIBLE
+        binding.tvSelectedName.text = "Chọn hạng mục"
+        binding.imgSelectedIcon.setImageDrawable(null)
+        binding.rvCategory.visibility = View.VISIBLE
         isCategoryVisible = true
     }
 
     private fun clearForm() {
-        edtAmount.setText("")
-        etNote.setText("")
+        binding.edtAmount.setText("")
+        binding.etNote.setText("")
         resetSelectedCategory()
         calendar.timeInMillis = System.currentTimeMillis()
         setDefaultDateTime()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

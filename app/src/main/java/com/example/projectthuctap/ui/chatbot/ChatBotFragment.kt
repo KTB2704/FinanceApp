@@ -1,68 +1,67 @@
 package com.example.projectthuctap.ui.chatbot
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.projectthuctap.R
+import com.example.projectthuctap.databinding.FragmentChatBotBinding
 import com.example.projectthuctap.ui.adapter.AdapterChatBot
 
-class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
+class ChatBotFragment : Fragment() {
+
+    private var _binding: FragmentChatBotBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: ChatBotViewModel
     private lateinit var adapter: AdapterChatBot
 
-    private lateinit var rvChat: RecyclerView
-    private lateinit var edtMessage: EditText
-    private lateinit var btnSend: Button
-
-    private lateinit var btnBack: ImageView
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentChatBotBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindView(view)
-
         viewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
 
-        adapter = AdapterChatBot()
-
-        rvChat.layoutManager = LinearLayoutManager(requireContext()).apply {
-            stackFromEnd = true
-        }
-        rvChat.adapter = adapter
-
-        btnSend.setOnClickListener {
-
-            val text = edtMessage.text.toString().trim()
-
-            if (text.isNotEmpty()) {
-                viewModel.sendMessage(text)
-                edtMessage.text.clear()
-            }
-        }
-
-        btnBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-
+        setupRecyclerView()
+        setupClick()
         observeData()
     }
 
-    private fun bindView(view: View) {
-        rvChat = view.findViewById(R.id.rvChat)
-        edtMessage = view.findViewById(R.id.edtMessage)
-        btnSend = view.findViewById(R.id.btnSend)
-        btnBack = view.findViewById(R.id.btnBack)
+    private fun setupRecyclerView() {
+        adapter = AdapterChatBot()
+
+        binding.rvChat.layoutManager =
+            LinearLayoutManager(requireContext()).apply {
+                stackFromEnd = true
+            }
+
+        binding.rvChat.adapter = adapter
+    }
+
+    private fun setupClick() {
+
+        binding.btnSend.setOnClickListener {
+            val text = binding.edtMessage.text.toString().trim()
+
+            if (text.isNotEmpty()) {
+                viewModel.sendMessage(text)
+                binding.edtMessage.text?.clear()
+            }
+        }
+
+        binding.btnBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
 
     private fun observeData() {
@@ -72,10 +71,13 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
             adapter.submitList(list)
 
             if (list.isNotEmpty()) {
-                view?.findViewById<RecyclerView>(R.id.rvChat)
-                    ?.scrollToPosition(list.size - 1)
+                binding.rvChat.scrollToPosition(list.size - 1)
             }
         }
     }
-}
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

@@ -3,44 +3,39 @@ package com.example.projectthuctap.ui.home
 import android.app.DatePickerDialog
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.projectthuctap.R
-import com.example.projectthuctap.ui.chatbot.ChatBotFragment
+import com.example.projectthuctap.databinding.FragmentHomeBinding
 import com.example.projectthuctap.ui.transaction.AdjustTransactionFragment
 import java.text.NumberFormat
 import java.util.Calendar
 import java.util.Locale
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class HomeFragment : Fragment() {
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: HomeViewModel
 
-    private lateinit var layoutMonthFilter: LinearLayout
-    private lateinit var txtSelectedMonth: TextView
-
-    private lateinit var txtTotal: TextView
-    private lateinit var txtIncome: TextView
-    private lateinit var txtExpense: TextView
-
-    private lateinit var txtName: TextView
-
-    private lateinit var txtIncomeD: TextView
-    private lateinit var txtExpenseD: TextView
-    private lateinit var txtBalance: TextView
-    private lateinit var barIncome: View
-    private lateinit var barExpense: View
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
-        bindView(view)
         observeViewModel()
         setupMonthFilter()
 
@@ -53,7 +48,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             cal.get(Calendar.YEAR)
         )
 
-        txtTotal.setOnClickListener {
+        binding.txtTotal.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(
                     R.anim.slide_in_right,
@@ -67,54 +62,36 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-
-    private fun bindView(view: View) {
-        layoutMonthFilter = view.findViewById(R.id.layoutMonthFilter)
-        txtSelectedMonth = view.findViewById(R.id.txtSelectedMonth)
-        txtName = view.findViewById(R.id.txtName)
-
-        txtTotal = view.findViewById(R.id.txtTotal)
-        txtIncome = view.findViewById(R.id.txtIncome)
-        txtExpense = view.findViewById(R.id.txtExpense)
-
-        txtIncomeD = view.findViewById(R.id.txtIncomeD)
-        txtExpenseD = view.findViewById(R.id.txtExpenseD)
-        txtBalance = view.findViewById(R.id.txtBalance)
-
-        barIncome = view.findViewById(R.id.barIncome)
-        barExpense = view.findViewById(R.id.barExpense)
-    }
-
     private fun observeViewModel() {
 
         viewModel.userName.observe(viewLifecycleOwner) {
-            txtName.text = it
+            binding.txtName.text = it
         }
 
         viewModel.totalBalance.observe(viewLifecycleOwner) {
-            txtTotal.text = formatMoney(it)
+            binding.txtTotal.text = formatMoney(it)
         }
 
         viewModel.totalIncomeAll.observe(viewLifecycleOwner) {
-            txtIncome.text = formatMoney(it)
+            binding.txtIncome.text = formatMoney(it)
         }
 
         viewModel.totalExpenseAll.observe(viewLifecycleOwner) {
-            txtExpense.text = formatMoney(it)
+            binding.txtExpense.text = formatMoney(it)
         }
 
         viewModel.incomeMonth.observe(viewLifecycleOwner) {
-            txtIncomeD.text = formatMoney(it)
+            binding.txtIncomeD.text = formatMoney(it)
             updateBars()
         }
 
         viewModel.expenseMonth.observe(viewLifecycleOwner) {
-            txtExpenseD.text = formatMoney(it)
+            binding.txtExpenseD.text = formatMoney(it)
             updateBars()
         }
 
         viewModel.diffMonth.observe(viewLifecycleOwner) {
-            txtBalance.text = formatMoney(it)
+            binding.txtBalance.text = formatMoney(it)
         }
     }
 
@@ -122,7 +99,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val cal = Calendar.getInstance()
         updateMonthText(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR))
 
-        layoutMonthFilter.setOnClickListener {
+        binding.layoutMonthFilter.setOnClickListener {
             showMonthPicker()
         }
     }
@@ -149,7 +126,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun updateMonthText(month: Int, year: Int) {
-        txtSelectedMonth.text = "Tháng ${month + 1}/$year"
+        binding.txtSelectedMonth.text = "Tháng ${month + 1}/$year"
     }
 
     private fun updateBars() {
@@ -167,23 +144,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             if (maxValue == 0.0) dpToPx(4)
             else ((expense / maxValue) * maxHeight).toInt()
 
-        barIncome.layoutParams = barIncome.layoutParams.apply {
-            height = incomeHeight
-        }
+        binding.barIncome.layoutParams =
+            binding.barIncome.layoutParams.apply {
+                height = incomeHeight
+            }
 
-        barExpense.layoutParams = barExpense.layoutParams.apply {
-            height = expenseHeight
-        }
+        binding.barExpense.layoutParams =
+            binding.barExpense.layoutParams.apply {
+                height = expenseHeight
+            }
 
-        barIncome.requestLayout()
-        barExpense.requestLayout()
+        binding.barIncome.requestLayout()
+        binding.barExpense.requestLayout()
     }
-
 
     private fun dpToPx(dp: Int): Int =
         (dp * resources.displayMetrics.density).toInt()
 
     private fun formatMoney(value: Double): String =
         NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(value)
-}
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

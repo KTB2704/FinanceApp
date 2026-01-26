@@ -5,41 +5,40 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.projectthuctap.R
+import com.example.projectthuctap.databinding.FragmentAdjustTransactionBinding
 import com.example.projectthuctap.ui.adapter.CategoryAdapter
 import com.example.projectthuctap.viewmodel.AdjustTransactionViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.abs
 
-class AdjustTransactionFragment :
-    Fragment(R.layout.fragment_adjust_transaction) {
+class AdjustTransactionFragment : Fragment() {
+
+    private var _binding: FragmentAdjustTransactionBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: AdjustTransactionViewModel
 
-    private lateinit var rvCategory: RecyclerView
-    private lateinit var spinnerType: Spinner
-    private lateinit var edtDateTime: EditText
-    private lateinit var etAmountReal: EditText
-    private lateinit var txtTotalAmount: TextView
-    private lateinit var txtColor: TextView
-    private lateinit var txtAmount: TextView
-    private lateinit var btnSave: Button
-    private lateinit var btnBack: ImageView
-
-    private lateinit var layoutSelectedCategory: LinearLayout
-    private lateinit var imgSelectedIcon: ImageView
-    private lateinit var tvSelectedName: TextView
-    private lateinit var etNote: EditText
-
     private val calendar = Calendar.getInstance()
     private var adjustAmount = 0.0
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding =
+            FragmentAdjustTransactionBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +46,6 @@ class AdjustTransactionFragment :
         viewModel =
             ViewModelProvider(this)[AdjustTransactionViewModel::class.java]
 
-        bindView(view)
         setupSpinner()
         setupRecyclerView()
         setupDateTimePicker()
@@ -57,47 +55,33 @@ class AdjustTransactionFragment :
         viewModel.loadCategories()
         viewModel.loadCurrentBalance()
 
-        btnBack.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        layoutSelectedCategory.setOnClickListener {
-            rvCategory.visibility = View.VISIBLE
+        binding.layoutSelectedCategory.setOnClickListener {
+            binding.rvCategory.visibility = View.VISIBLE
         }
 
-        btnSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
 
             if (adjustAmount == 0.0) return@setOnClickListener
 
             if (viewModel.selectedCategory.value == null) {
-                Toast.makeText(requireContext(),
+                Toast.makeText(
+                    requireContext(),
                     "Vui lòng chọn hạng mục",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
             viewModel.saveTransaction(
                 adjustAmount,
-                etNote.text.toString(),
+                binding.etNote.text.toString(),
                 calendar.timeInMillis
             )
         }
-    }
-
-    private fun bindView(view: View) {
-        rvCategory = view.findViewById(R.id.rvCategory)
-        spinnerType = view.findViewById(R.id.spinnerItem)
-        edtDateTime = view.findViewById(R.id.edtDateTime)
-        etAmountReal = view.findViewById(R.id.etAmountReal)
-        txtTotalAmount = view.findViewById(R.id.txtTotalAmount)
-        txtColor = view.findViewById(R.id.txtColor)
-        txtAmount = view.findViewById(R.id.txtAmount)
-        btnSave = view.findViewById(R.id.btnSave)
-        btnBack = view.findViewById(R.id.btnBack)
-        layoutSelectedCategory = view.findViewById(R.id.layoutSelectedCategory)
-        imgSelectedIcon = view.findViewById(R.id.imgSelectedIcon)
-        tvSelectedName = view.findViewById(R.id.tvSelectedName)
-        etNote = view.findViewById(R.id.etNote)
     }
 
     private fun setupSpinner() {
@@ -114,9 +98,9 @@ class AdjustTransactionFragment :
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        spinnerType.adapter = adapter
+        binding.spinnerItem.adapter = adapter
 
-        spinnerType.onItemSelectedListener =
+        binding.spinnerItem.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
 
                 override fun onItemSelected(
@@ -136,7 +120,7 @@ class AdjustTransactionFragment :
     }
 
     private fun setupRecyclerView() {
-        rvCategory.layoutManager =
+        binding.rvCategory.layoutManager =
             GridLayoutManager(requireContext(), 4)
     }
 
@@ -144,7 +128,7 @@ class AdjustTransactionFragment :
 
         setDefaultDateTime()
 
-        edtDateTime.setOnClickListener {
+        binding.edtDateTime.setOnClickListener {
 
             DatePickerDialog(
                 requireContext(),
@@ -171,7 +155,7 @@ class AdjustTransactionFragment :
     }
 
     private fun setDefaultDateTime() {
-        edtDateTime.setText(
+        binding.edtDateTime.setText(
             SimpleDateFormat(
                 "dd/MM/yyyy HH:mm",
                 Locale.getDefault()
@@ -181,7 +165,7 @@ class AdjustTransactionFragment :
 
     private fun setupTextWatcher() {
 
-        etAmountReal.addTextChangedListener(object : TextWatcher {
+        binding.etAmountReal.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(
                 s: CharSequence?, start: Int, count: Int, after: Int
@@ -200,11 +184,11 @@ class AdjustTransactionFragment :
     private fun observeViewModel() {
 
         viewModel.totalBalance.observe(viewLifecycleOwner) {
-            txtTotalAmount.text = formatMoney(it)
+            binding.txtTotalAmount.text = formatMoney(it)
         }
 
         viewModel.filteredCategories.observe(viewLifecycleOwner) {
-            rvCategory.adapter =
+            binding.rvCategory.adapter =
                 CategoryAdapter(requireContext(), it) { category ->
                     viewModel.selectCategory(category)
                 }
@@ -212,8 +196,8 @@ class AdjustTransactionFragment :
 
         viewModel.transactionType.observe(viewLifecycleOwner) { type ->
             val position = if (type == "income") 0 else 1
-            if (spinnerType.selectedItemPosition != position) {
-                spinnerType.setSelection(position)
+            if (binding.spinnerItem.selectedItemPosition != position) {
+                binding.spinnerItem.setSelection(position)
             }
         }
 
@@ -224,27 +208,34 @@ class AdjustTransactionFragment :
             adjustAmount = amount
 
             if (amount == 0.0) {
-                txtAmount.text = "0đ"
-                txtColor.text = ""
+                binding.txtAmount.text = "0đ"
+                binding.txtColor.text = ""
                 return@observe
             }
 
-            txtAmount.text = formatMoney(amount)
+            binding.txtAmount.text = formatMoney(amount)
 
             if (type == "income") {
-                txtColor.text = "Đã thu"
-                txtColor.setTextColor(
+
+                binding.txtColor.text = "Đã thu"
+
+                binding.txtColor.setTextColor(
                     resources.getColor(android.R.color.holo_green_dark, null)
                 )
-                txtAmount.setTextColor(
+
+                binding.txtAmount.setTextColor(
                     resources.getColor(android.R.color.holo_green_dark, null)
                 )
+
             } else {
-                txtColor.text = "Đã chi"
-                txtColor.setTextColor(
+
+                binding.txtColor.text = "Đã chi"
+
+                binding.txtColor.setTextColor(
                     resources.getColor(android.R.color.holo_red_dark, null)
                 )
-                txtAmount.setTextColor(
+
+                binding.txtAmount.setTextColor(
                     resources.getColor(android.R.color.holo_red_dark, null)
                 )
             }
@@ -253,13 +244,14 @@ class AdjustTransactionFragment :
         viewModel.selectedCategory.observe(viewLifecycleOwner) { category ->
 
             if (category == null) {
-                tvSelectedName.text = "Chọn hạng mục"
-                imgSelectedIcon.setImageDrawable(null)
-                rvCategory.visibility = View.VISIBLE
+
+                binding.tvSelectedName.text = "Chọn hạng mục"
+                binding.imgSelectedIcon.setImageDrawable(null)
+                binding.rvCategory.visibility = View.VISIBLE
                 return@observe
             }
 
-            tvSelectedName.text = category.name
+            binding.tvSelectedName.text = category.name
 
             val iconRes = resources.getIdentifier(
                 category.icon,
@@ -268,10 +260,10 @@ class AdjustTransactionFragment :
             )
 
             if (iconRes != 0) {
-                imgSelectedIcon.setImageResource(iconRes)
+                binding.imgSelectedIcon.setImageResource(iconRes)
             }
 
-            rvCategory.visibility = View.GONE
+            binding.rvCategory.visibility = View.GONE
         }
 
         viewModel.success.observe(viewLifecycleOwner) { success ->
@@ -283,8 +275,8 @@ class AdjustTransactionFragment :
                     Toast.LENGTH_SHORT
                 ).show()
 
-                etAmountReal.text?.clear()
-                etNote.text?.clear()
+                binding.etAmountReal.text?.clear()
+                binding.etNote.text?.clear()
 
                 viewModel.resetState()
 
@@ -299,8 +291,12 @@ class AdjustTransactionFragment :
         }
     }
 
-
     private fun formatMoney(amount: Double): String {
         return String.format("%,.0fđ", amount)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

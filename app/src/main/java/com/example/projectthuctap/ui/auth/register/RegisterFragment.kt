@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.projectthuctap.R
+import com.example.projectthuctap.databinding.FragmentRegisterBinding
 import com.example.projectthuctap.ui.auth.AuthViewModel
 
 class RegisterFragment : Fragment() {
+
+    private var _binding: FragmentRegisterBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: AuthViewModel
 
@@ -22,26 +22,36 @@ class RegisterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        val view = inflater.inflate(R.layout.fragment_register, container, false)
-
-        val btnBack = view.findViewById<ImageView>(R.id.btnBack)
-        val etEmail = view.findViewById<EditText>(R.id.etEmail)
-        val etName = view.findViewById<EditText>(R.id.etName)
-        val etPassword = view.findViewById<EditText>(R.id.etPassword)
-        val etRePassword = view.findViewById<EditText>(R.id.etRePassword)
-        val btnRe = view.findViewById<Button>(R.id.btnRe)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
-        btnRe.setOnClickListener {
+        setupClick()
+        observeViewModel()
+    }
+
+    private fun setupClick() {
+
+        binding.btnRe.setOnClickListener {
             viewModel.register(
-                etEmail.text.toString().trim(),
-                etName.text.toString().trim(),
-                etPassword.text.toString().trim(),
-                etRePassword.text.toString().trim()
+                binding.etEmail.text.toString().trim(),
+                binding.etName.text.toString().trim(),
+                binding.etPassword.text.toString().trim(),
+                binding.etRePassword.text.toString().trim()
             )
         }
+
+        binding.btnBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+    }
+
+    private fun observeViewModel() {
 
         viewModel.registerSuccesLiveData.observe(viewLifecycleOwner) { success ->
             if (success == true) {
@@ -50,7 +60,7 @@ class RegisterFragment : Fragment() {
                     "Đăng ký tài khoản thành công",
                     Toast.LENGTH_SHORT
                 ).show()
-                requireActivity().supportFragmentManager.popBackStack()
+                parentFragmentManager.popBackStack()
             }
         }
 
@@ -59,11 +69,10 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
-        btnBack.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
-        return view
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

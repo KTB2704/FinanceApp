@@ -2,28 +2,33 @@ package com.example.projectthuctap.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.projectthuctap.AuthActivity
-import com.example.projectthuctap.MainActivity
-import com.example.projectthuctap.R
+import com.example.projectthuctap.databinding.FragmentProfileBinding
 import com.example.projectthuctap.ui.auth.AuthViewModel
-import com.example.projectthuctap.ui.auth.login.LoginFragment
 import com.example.projectthuctap.ui.home.HomeViewModel
 
-class ProfileFragment : Fragment(R.layout.fragment_profile) {
+class ProfileFragment : Fragment() {
+
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var txtName: TextView
-    private lateinit var btnLogOut: Button
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,18 +36,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
-        bindView(view)
         observeViewModel()
-
 
         viewModel.loadUser()
 
-        btnLogOut.setOnClickListener {
+        binding.btnLogOut.setOnClickListener {
             authViewModel.logout()
         }
 
         authViewModel.logoutSuccessLiveData.observe(viewLifecycleOwner) {
-            if (it) {
+            if (it == true) {
                 Toast.makeText(requireContext(), "Đã đăng xuất", Toast.LENGTH_SHORT).show()
                 goToLogin()
             }
@@ -50,16 +53,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun observeViewModel() {
-
         viewModel.userName.observe(viewLifecycleOwner) {
-            txtName.text = it
+            binding.txtName.text = it
         }
-
-    }
-
-    private fun bindView(view: View) {
-        txtName = view.findViewById(R.id.txtName)
-        btnLogOut = view.findViewById(R.id.btnLogOut)
     }
 
     private fun goToLogin() {
@@ -68,7 +64,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         startActivity(intent)
     }
 
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
-
