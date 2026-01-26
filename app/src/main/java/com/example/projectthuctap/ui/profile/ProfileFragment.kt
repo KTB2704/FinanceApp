@@ -5,67 +5,58 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.example.projectthuctap.AuthActivity
+import com.example.projectthuctap.base.BaseFragment
 import com.example.projectthuctap.databinding.FragmentProfileBinding
 import com.example.projectthuctap.ui.auth.AuthViewModel
 import com.example.projectthuctap.ui.home.HomeViewModel
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
-    private lateinit var viewModel: HomeViewModel
-    private lateinit var authViewModel: AuthViewModel
-
-    override fun onCreateView(
+    override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentProfileBinding {
+        return FragmentProfileBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
-
         observeViewModel()
+        setupClick()
 
-        viewModel.loadUser()
+        homeViewModel.loadUser()
+    }
 
+    private fun setupClick() {
         binding.btnLogOut.setOnClickListener {
             authViewModel.logout()
         }
+    }
 
-        authViewModel.logoutSuccessLiveData.observe(viewLifecycleOwner) {
-            if (it == true) {
-                Toast.makeText(requireContext(), "Đã đăng xuất", Toast.LENGTH_SHORT).show()
+    private fun observeViewModel() {
+
+        homeViewModel.userName.observe(viewLifecycleOwner) {
+            binding.txtName.text = it
+        }
+
+        authViewModel.logoutSuccessLiveData.observe(viewLifecycleOwner) { success ->
+            if (success == true) {
+                showToast("Đã đăng xuất")
                 goToLogin()
             }
         }
     }
 
-    private fun observeViewModel() {
-        viewModel.userName.observe(viewLifecycleOwner) {
-            binding.txtName.text = it
-        }
-    }
-
     private fun goToLogin() {
-        val intent = Intent(requireContext(), AuthActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val intent = Intent(requireContext(), AuthActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
         startActivity(intent)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -7,12 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.projectthuctap.R
+import com.example.projectthuctap.base.BaseFragment
 import com.example.projectthuctap.databinding.FragmentTransactionBinding
 import com.example.projectthuctap.ui.adapter.CategoryAdapter
 import com.example.projectthuctap.ui.chatbot.ChatBotFragment
@@ -20,29 +19,26 @@ import com.example.projectthuctap.viewmodel.TransactionViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TransactionFragment : Fragment() {
-
-    private var _binding: FragmentTransactionBinding? = null
-    private val binding get() = _binding!!
+class TransactionFragment :
+    BaseFragment<FragmentTransactionBinding>() {
 
     private lateinit var viewModel: TransactionViewModel
 
     private val calendar = Calendar.getInstance()
     private var isCategoryVisible = true
 
-    override fun onCreateView(
+    override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentTransactionBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentTransactionBinding {
+        return FragmentTransactionBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
+        viewModel =
+            ViewModelProvider(this)[TransactionViewModel::class.java]
 
         setupRecyclerView()
         setupToggle()
@@ -62,16 +58,10 @@ class TransactionFragment : Fragment() {
         }
 
         binding.btnChatBot.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.slide_in_right,
-                    R.anim.slide_out_left,
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_right
-                )
-                .replace(R.id.fragment_container, ChatBotFragment())
-                .addToBackStack(null)
-                .commit()
+            navigate(
+                fragment = ChatBotFragment(),
+                containerId = R.id.fragment_container
+            )
         }
     }
 
@@ -142,7 +132,7 @@ class TransactionFragment : Fragment() {
         }
 
         viewModel.message.observe(viewLifecycleOwner) { message ->
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            showToast(message)
         }
 
         viewModel.success.observe(viewLifecycleOwner) { success ->
@@ -240,10 +230,5 @@ class TransactionFragment : Fragment() {
 
         calendar.timeInMillis = System.currentTimeMillis()
         setDefaultDateTime()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

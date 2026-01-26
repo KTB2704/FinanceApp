@@ -10,12 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.projectthuctap.R
+import com.example.projectthuctap.base.BaseFragment
 import com.example.projectthuctap.databinding.FragmentAdjustTransactionBinding
 import com.example.projectthuctap.ui.adapter.CategoryAdapter
 import com.example.projectthuctap.viewmodel.AdjustTransactionViewModel
@@ -23,24 +22,19 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class AdjustTransactionFragment : Fragment() {
-
-    private var _binding: FragmentAdjustTransactionBinding? = null
-    private val binding get() = _binding!!
+class AdjustTransactionFragment :
+    BaseFragment<FragmentAdjustTransactionBinding>() {
 
     private lateinit var viewModel: AdjustTransactionViewModel
 
     private val calendar = Calendar.getInstance()
     private var adjustAmount = 0.0
 
-    override fun onCreateView(
+    override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding =
-            FragmentAdjustTransactionBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentAdjustTransactionBinding {
+        return FragmentAdjustTransactionBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +53,7 @@ class AdjustTransactionFragment : Fragment() {
         viewModel.loadCurrentBalance()
 
         binding.btnBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            popBack()
         }
 
         binding.layoutSelectedCategory.setOnClickListener {
@@ -71,11 +65,7 @@ class AdjustTransactionFragment : Fragment() {
             if (adjustAmount == 0.0) return@setOnClickListener
 
             if (viewModel.selectedCategory.value == null) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.please_choose_category),
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(getString(R.string.please_choose_category))
                 return@setOnClickListener
             }
 
@@ -287,38 +277,21 @@ class AdjustTransactionFragment : Fragment() {
         viewModel.success.observe(viewLifecycleOwner) { success ->
             if (success == true) {
 
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.transaction_saved),
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(getString(R.string.transaction_saved))
 
                 binding.etAmountReal.text?.clear()
                 binding.etNote.text?.clear()
 
                 viewModel.resetState()
 
-                parentFragmentManager.popBackStack()
+                popBack()
             }
         }
 
         viewModel.message.observe(viewLifecycleOwner) { msg ->
             msg?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                showToast(it)
             }
         }
-    }
-
-    private fun formatMoney(amount: Double): String {
-        return String.format(
-            Locale("vi", "VN"),
-            getString(R.string.money_format1),
-            amount
-        )
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

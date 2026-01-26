@@ -6,38 +6,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.example.projectthuctap.R
+import com.example.projectthuctap.base.BaseFragment
 import com.example.projectthuctap.databinding.FragmentHomeBinding
 import com.example.projectthuctap.ui.transaction.AdjustTransactionFragment
-import java.text.NumberFormat
 import java.util.Calendar
-import java.util.Locale
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private val viewModel: HomeViewModel by viewModels()
 
-    private lateinit var viewModel: HomeViewModel
-
-    override fun onCreateView(
+    override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentHomeBinding {
+        return FragmentHomeBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-
         observeViewModel()
         setupMonthFilter()
+        setupClick()
 
         val cal = Calendar.getInstance()
 
@@ -47,18 +39,14 @@ class HomeFragment : Fragment() {
             cal.get(Calendar.MONTH),
             cal.get(Calendar.YEAR)
         )
+    }
 
+    private fun setupClick() {
         binding.txtTotal.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.slide_in_right,
-                    R.anim.slide_out_left,
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_right
-                )
-                .replace(R.id.fragment_container, AdjustTransactionFragment())
-                .addToBackStack(null)
-                .commit()
+            navigate(
+                AdjustTransactionFragment(),
+                R.id.fragment_container
+            )
         }
     }
 
@@ -130,7 +118,6 @@ class HomeFragment : Fragment() {
             getString(R.string.month_year_format, month + 1, year)
     }
 
-
     private fun updateBars() {
         val income = viewModel.incomeMonth.value ?: 0.0
         val expense = viewModel.expenseMonth.value ?: 0.0
@@ -158,23 +145,5 @@ class HomeFragment : Fragment() {
 
         binding.barIncome.requestLayout()
         binding.barExpense.requestLayout()
-    }
-
-    private fun dpToPx(dp: Int): Int =
-        (dp * resources.displayMetrics.density).toInt()
-
-    private fun formatMoney(value: Double): String {
-        val locale = Locale.Builder()
-            .setLanguage("vi")
-            .setRegion("VN")
-            .build()
-
-        return NumberFormat.getCurrencyInstance(locale).format(value)
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

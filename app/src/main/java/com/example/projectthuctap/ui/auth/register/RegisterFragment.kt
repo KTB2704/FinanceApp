@@ -1,35 +1,26 @@
 package com.example.projectthuctap.ui.auth.register
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import com.example.projectthuctap.base.BaseFragment
 import com.example.projectthuctap.databinding.FragmentRegisterBinding
 import com.example.projectthuctap.ui.auth.AuthViewModel
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
-    private var _binding: FragmentRegisterBinding? = null
-    private val binding get() = _binding!!
+    private val viewModel: AuthViewModel by activityViewModels()
 
-    private lateinit var viewModel: AuthViewModel
-
-    override fun onCreateView(
+    override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentRegisterBinding {
+        return FragmentRegisterBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
         setupClick()
         observeViewModel()
@@ -47,7 +38,7 @@ class RegisterFragment : Fragment() {
         }
 
         binding.btnBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            popBack()
         }
     }
 
@@ -55,24 +46,13 @@ class RegisterFragment : Fragment() {
 
         viewModel.registerSuccesLiveData.observe(viewLifecycleOwner) { success ->
             if (success == true) {
-                Toast.makeText(
-                    requireContext(),
-                    "Đăng ký tài khoản thành công",
-                    Toast.LENGTH_SHORT
-                ).show()
-                parentFragmentManager.popBackStack()
+                showToast("Đăng ký tài khoản thành công")
+                popBack()
             }
         }
 
-        viewModel.errorLiveData.observe(viewLifecycleOwner) { error ->
-            error?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
+        viewModel.errorLiveData.observe(viewLifecycleOwner) {
+            it?.let { showToast(it) }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

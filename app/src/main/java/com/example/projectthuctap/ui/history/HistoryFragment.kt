@@ -4,36 +4,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.projectthuctap.R
+import com.example.projectthuctap.base.BaseFragment
 import com.example.projectthuctap.databinding.FragmentHistoryBinding
 import com.example.projectthuctap.ui.adapter.HistoryAdapter
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.Calendar
 
-class HistoryFragment : Fragment() {
+class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
 
-    private var _binding: FragmentHistoryBinding? = null
-    private val binding get() = _binding!!
-
-    private lateinit var viewModel: HistoryViewModel
+    private val viewModel: HistoryViewModel by viewModels()
     private lateinit var adapter: HistoryAdapter
 
-    override fun onCreateView(
+    override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentHistoryBinding {
+        return FragmentHistoryBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
 
         setupRecyclerView()
         setupClick()
@@ -45,12 +37,11 @@ class HistoryFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = HistoryAdapter()
 
-        binding.rvHistoryT.layoutManager =
-            LinearLayoutManager(requireContext())
-
-        binding.rvHistoryT.adapter = adapter
+        binding.rvHistoryT.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@HistoryFragment.adapter
+        }
     }
-
 
     private fun setupClick() {
         binding.imgDate.setOnClickListener {
@@ -65,20 +56,17 @@ class HistoryFragment : Fragment() {
         }
 
         viewModel.income.observe(viewLifecycleOwner) {
-            binding.txtIncomeHistory.text =
-                getString(R.string.money_format, it.toInt())
-
+            binding.txtIncomeHistory.text = formatMoney(it)
         }
 
         viewModel.expense.observe(viewLifecycleOwner) {
-            binding.txtIncomExpense.text =
-                getString(R.string.money_format, it.toInt())
+            binding.txtIncomExpense.text = formatMoney(it)
         }
     }
 
     private fun showMonthPicker() {
         val picker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText(getString(R.string.select_month))
+            .setTitleText("Chọn tháng")
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .build()
 
@@ -93,10 +81,6 @@ class HistoryFragment : Fragment() {
 
             viewModel.loadByMonth(month, year)
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

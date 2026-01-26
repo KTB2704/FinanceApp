@@ -1,38 +1,30 @@
 package com.example.projectthuctap.ui.auth.login
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.example.projectthuctap.MainActivity
+import com.example.projectthuctap.R
+import com.example.projectthuctap.base.BaseFragment
 import com.example.projectthuctap.databinding.FragmentLoginBinding
 import com.example.projectthuctap.ui.auth.AuthViewModel
 import com.example.projectthuctap.ui.auth.register.RegisterFragment
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
+    private val viewModel: AuthViewModel by activityViewModels()
 
-    private lateinit var viewModel: AuthViewModel
-
-    override fun onCreateView(
+    override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentLoginBinding {
+        return FragmentLoginBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
         setupClick()
         observeViewModel()
@@ -41,19 +33,10 @@ class LoginFragment : Fragment() {
     private fun setupClick() {
 
         binding.btnRe.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    com.example.projectthuctap.R.anim.slide_in_right,
-                    com.example.projectthuctap.R.anim.slide_out_left,
-                    com.example.projectthuctap.R.anim.slide_in_left,
-                    com.example.projectthuctap.R.anim.slide_out_right
-                )
-                .replace(
-                    com.example.projectthuctap.R.id.auth_container,
-                    RegisterFragment()
-                )
-                .addToBackStack(null)
-                .commit()
+            navigate(
+                fragment = RegisterFragment(),
+                containerId = R.id.auth_container
+            )
         }
 
         binding.btnLog.setOnClickListener {
@@ -72,13 +55,9 @@ class LoginFragment : Fragment() {
             requireActivity().finish()
         }
 
-        viewModel.errorLiveData.observe(viewLifecycleOwner) { msg ->
-            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        viewModel.errorLiveData.observe(viewLifecycleOwner) {
+            showToast(it)
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
+
