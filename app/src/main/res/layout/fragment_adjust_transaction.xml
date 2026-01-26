@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.transaction.AdjustTransactionFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -30,22 +27,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="20dp">
+                    android:padding="20dp"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:id="@+id/btnBack"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/back_icon" />
+                        android:src="@drawable/back_icon"
+                        android:contentDescription="@string/back"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="32dp"
-                        android:text="Điều chỉnh số dư"
+                        android:layout_marginStart="32dp"
+                        android:text="@string/adjust_balance"
                         android:textColor="#897E7E"
-                        android:textSize="30sp" />
+                        android:textSize="30sp"
+                        tools:ignore="TextContrastCheck" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -75,9 +76,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Số dư trên tài khoản"
+                            android:text="@string/account_balance"
                             android:textColor="#897E7E"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            tools:ignore="TextContrastCheck" />
 
                         <TextView
                             android:id="@+id/txtTotalAmount"
@@ -85,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="0đ"
+                            android:text="@string/zero_currency"
                             android:textSize="18sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -101,21 +103,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Số dư thực tế"
+                            android:labelFor="@id/etAmountReal"
+                            android:text="@string/real_balance"
                             android:textColor="#897E7E"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            tools:ignore="TextContrastCheck" />
 
                         <EditText
                             android:id="@+id/etAmountReal"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_weight="1"
+                            android:importantForAutofill="no"
                             android:background="@android:color/transparent"
                             android:ems="10"
                             android:gravity="end"
                             android:inputType="text"
-                            android:text="0đ"
-                            android:textSize="18sp" />
+                            android:text="@string/zero_currency"
+                            android:textSize="18sp"
+                            tools:ignore="VisualLintTextFieldSize" />
 
                     </LinearLayout>
 
@@ -130,9 +136,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Đã chi"
+                            android:text="@string/spent"
                             android:textColor="#897E7E"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            tools:ignore="TextContrastCheck" />
 
                         <TextView
                             android:id="@+id/txtAmount"
@@ -140,7 +147,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="0đ"
+                            android:text="@string/zero_currency"
                             android:textSize="18sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -164,9 +171,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Chọn hạng mục"
+                        android:text="@string/select_category"
                         android:textColor="#897E7E"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        tools:ignore="TextContrastCheck" />
 
                     <LinearLayout
                         android:id="@+id/layoutSelectedCategory"
@@ -181,14 +189,16 @@
                         <ImageView
                             android:id="@+id/imgSelectedIcon"
                             android:layout_width="28dp"
-                            android:layout_height="28dp" />
+                            android:layout_height="28dp"
+                            android:contentDescription="@null"
+                            />
 
                         <TextView
                             android:id="@+id/tvSelectedName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:text="Chọn hạng mục"
+                            android:text="@string/select_category"
                             android:textColor="#4A4A4A"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -225,7 +235,9 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/money_icon" />
+                            android:contentDescription="@null"
+                            android:src="@drawable/money_icon"
+                            tools:ignore="ImageContrastCheck" />
 
                         <Spinner
                             android:id="@+id/spinnerItem"
@@ -248,20 +260,29 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/date_icon" />
+                            android:contentDescription="@null"
+
+                            android:src="@drawable/date_icon"
+                            tools:ignore="ImageContrastCheck" />
 
                         <EditText
                             android:id="@+id/edtDateTime"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:layout_marginLeft="12dp"
+                            android:layout_marginStart="12dp"
                             android:background="@drawable/bg_selected_category"
                             android:clickable="true"
-                            android:focusable="false"
-                            android:hint="Chọn ngày"
+                            android:cursorVisible="false"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/select_date"
+                            android:importantForAutofill="no"
+                            android:inputType="none"
                             android:padding="12dp"
                             android:textColor="#4A4A4A"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="TextFields,TextContrastCheck,VisualLintTextFieldSize" />
+
 
                     </LinearLayout>
 
@@ -275,18 +296,25 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/note_icon" />
+                            android:src="@drawable/note_icon"
+                            android:contentDescription="@null"/>
 
                         <EditText
                             android:id="@+id/etNote"
                             android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginLeft="12dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
                             android:background="@drawable/bg_selected_category"
-                            android:hint="Ghi chú"
+                            android:gravity="top"
+                            android:hint="@string/note"
+                            android:importantForAutofill="no"
+                            android:inputType="textMultiLine"
+                            android:minLines="2"
                             android:padding="12dp"
                             android:textColor="#4A4A4A"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+
 
                     </LinearLayout>
 
@@ -303,14 +331,14 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_btn_save"
-                android:text="Lưu lại"
+                android:text="@string/save"
 
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="VisualLintButtonSize" />
 
 
         </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+</ScrollView>

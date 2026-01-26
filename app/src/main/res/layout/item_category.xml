@@ -2,14 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center"
+    tools:ignore="UseCompoundDrawables"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/imgIcon"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:contentDescription="@null"/>
 
     <TextView
         android:id="@+id/tvName"

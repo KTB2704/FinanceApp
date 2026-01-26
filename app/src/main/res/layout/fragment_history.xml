@@ -1,13 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.history.HistoryFragment">
-
-    <ScrollView
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.history.HistoryFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,42 +24,52 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/btnback" />
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/btnback"
+                    android:contentDescription="@string/back"
+                    />
 
                 <LinearLayout
                     android:layout_width="308dp"
                     android:layout_height="52dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
 
                     <TextView
                         android:id="@+id/textView4"
                         android:layout_width="270dp"
                         android:layout_height="50dp"
                         android:gravity="center"
-                        android:paddingLeft="20dp"
-                        android:text="Lịch sử"
-                        android:textSize="35sp" />
+                        android:paddingStart="20dp"
+                        android:paddingEnd="1dp"
+                        android:text="@string/history"
+                        android:textSize="35sp"
+                        tools:ignore="TextSizeCheck" />
 
                     <ImageView
                         android:id="@+id/imgSearch"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:src="@drawable/search_icon" />
+                        android:contentDescription="@null"
+                        android:src="@drawable/search_icon"
+                        tools:ignore="ImageContrastCheck" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/imgDate"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/date_icon" />
+                    android:layout_marginStart="15dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/date_icon"
+                    tools:ignore="ImageContrastCheck" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:baselineAligned="false"
                 android:layout_margin="10dp"
                 android:layout_weight="2"
                 android:background="@drawable/bg_constraint_radius2"
@@ -72,7 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="NestedWeights">
 
                     <TextView
                         android:id="@+id/textView7"
@@ -80,10 +88,11 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="Tổng thu"
+                        android:text="@string/total_income"
                         android:textColor="#8A8A8A"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/txtIncomeHistory"
@@ -91,9 +100,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
-                        android:text="0đ"
+                        android:text="@string/zero_currency"
                         android:textColor="#2E7D32"
-                        android:textSize="17sp" />
+                        android:textSize="17sp"
+                        tools:ignore="TextContrastCheck" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -108,10 +118,11 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="Tổng chi"
+                        android:text="@string/total_expense"
                         android:textColor="#8A8A8A"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/txtIncomExpense"
@@ -119,9 +130,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
-                        android:text="0đ"
+                        android:text="@string/zero_currency"
                         android:textColor="#C62828"
-                        android:textSize="17sp" />
+                        android:textSize="17sp"
+                        tools:ignore="TextContrastCheck" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -139,4 +151,3 @@
 
         </LinearLayout>
     </ScrollView>
-</FrameLayout>

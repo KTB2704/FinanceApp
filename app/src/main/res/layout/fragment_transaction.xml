@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EAF6FF">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#EAF6FF"
+    android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,9 +33,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Số tiền"
+                        android:text="@string/money"
                         android:textColor="#897E7E"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        tools:ignore="TextContrastCheck" />
 
                     <EditText
                         android:id="@+id/edtAmount"
@@ -46,11 +45,13 @@
                         android:layout_marginTop="8dp"
                         android:background="@null"
                         android:gravity="center"
-                        android:hint="0đ"
+                        android:hint="@string/zero_currency"
                         android:inputType="number"
                         android:textColorHint="#E53935"
                         android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:autofillHints="edtAmount"
+                        tools:ignore="VisualLintTextFieldSize" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -71,9 +72,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Chọn hạng mục"
+                        android:text="@string/select_category"
                         android:textColor="#897E7E"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        tools:ignore="TextContrastCheck" />
 
                     <LinearLayout
                         android:id="@+id/layoutSelectedCategory"
@@ -88,14 +90,15 @@
                         <ImageView
                             android:id="@+id/imgSelectedIcon"
                             android:layout_width="28dp"
-                            android:layout_height="28dp" />
+                            android:layout_height="28dp"
+                            android:contentDescription="@null"/>
 
                         <TextView
                             android:id="@+id/tvSelectedName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:text="Chọn hạng mục"
+                            android:text="@string/select_category"
                             android:textColor="#4A4A4A"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -132,7 +135,9 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/money_icon" />
+                            android:contentDescription="@null"
+                            android:src="@drawable/money_icon"
+                            tools:ignore="ImageContrastCheck" />
 
                         <Spinner
                             android:id="@+id/spinnerItem"
@@ -155,20 +160,28 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/date_icon" />
+                            android:contentDescription="@null"
+                            android:src="@drawable/date_icon"
+                            tools:ignore="ImageContrastCheck" />
 
                         <EditText
                             android:id="@+id/edtDateTime"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:layout_marginLeft="12dp"
+                            android:layout_marginStart="12dp"
                             android:background="@drawable/bg_selected_category"
                             android:clickable="true"
-                            android:focusable="false"
-                            android:hint="Chọn ngày"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:cursorVisible="false"
+                            android:inputType="text"
+                            android:importantForAutofill="no"
+                            android:text="@string/pick_date"
+                            android:gravity="center_vertical"
                             android:padding="12dp"
                             android:textColor="#4A4A4A"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="TextFields,VisualLintTextFieldSize" />
 
                     </LinearLayout>
 
@@ -182,18 +195,23 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/note_icon" />
+                            android:src="@drawable/note_icon"
+                            android:contentDescription="@null"/>
 
                         <EditText
                             android:id="@+id/etNote"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:layout_marginLeft="12dp"
+                            android:layout_marginStart="12dp"
                             android:background="@drawable/bg_selected_category"
-                            android:hint="Ghi chú"
+                            android:hint="@string/note"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapSentences|textMultiLine"
                             android:padding="12dp"
                             android:textColor="#4A4A4A"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+
 
                     </LinearLayout>
 
@@ -206,7 +224,7 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="20dp"
 
-                android:text="Lưu lại"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
@@ -215,7 +233,8 @@
                 android:background="@drawable/bg_btn_save"
                 app:backgroundTint="@null"
                 app:cornerRadius="18dp"
-                app:elevation="4dp"/>
+                app:elevation="4dp"
+                tools:ignore="VisualLintButtonSize" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -230,10 +249,11 @@
                     android:layout_height="60dp"
                     android:background="@drawable/bg_constraint_radius4"
                     android:padding="10dp"
-                    app:srcCompat="@drawable/chatbot_icon" />
+                    app:srcCompat="@drawable/chatbot_icon"
+                    android:contentDescription="@string/bot_ai"/>
             </LinearLayout>
 
 
         </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+</ScrollView>
+

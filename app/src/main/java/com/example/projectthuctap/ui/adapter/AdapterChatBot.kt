@@ -1,5 +1,6 @@
 package com.example.projectthuctap.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class AdapterChatBot : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private const val TYPE_BOT = 2
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(list: List<ChatBotMessage>) {
         messages.clear()
         messages.addAll(list)

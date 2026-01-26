@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ProjectThucTap</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -9,13 +8,11 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="terms_text">By clicking continue, you agree to our <b>Terms of Service</b> and <b>Privacy Policy</b></string>
     <string name="money_format">%1$dđ</string>
     <string name="select_month">Chọn tháng</string>
     <string name="month_year_format">Tháng %1$d/%2$d</string>
-
     <string name="please_choose_category">Vui lòng chọn hạng mục</string>
     <string name="transaction_saved">Đã lưu giao dịch</string>
     <string name="already_income">Đã thu</string>
@@ -24,10 +21,77 @@
     <string name="money_zero">0đ</string>
     <string name="money_format1">%,.0fđ</string>
     <string name="date_time_format">dd/MM/yyyy HH:mm</string>
-
     <string-array name="transaction_types">
         <item>Thu</item>
         <item>Chi</item>
     </string-array>
     <string name="empty_string"></string>
+    <string name="adjust_balance">Điều chỉnh số dư</string>
+    <string name="account_balance">Số dư trên tài khoản</string>
+    <string name="real_balance">Số dư thực tế</string>
+    <string name="spent">Đã chi</string>
+    <string name="zero_currency">0đ</string>
+    <string name="zero_currency1">0 đ</string>
+    <string name="name_cate">Tên danh mục</string>
+    <string name="select_category">Chọn hạng mục</string>
+    <string name="select_date">Chọn ngày</string>
+    <string name="note">Ghi chú</string>
+    <string name="save">Lưu lại</string>
+
+    <string name="back">Quay lại</string>
+    <string name="money_icon">Biểu tượng tiền</string>
+    <string name="date_icon">Biểu tượng ngày</string>
+    <string name="note_icon">Biểu tượng ghi chú</string>
+    <string name="bot_ai">Trợ lý tài chính</string>
+    <string name="input_question">Nhập câu hỏi .....</string>
+    <string name="send">Gửi</string>
+    <string name="history">Lịch sử</string>
+    <string name="total_income">Tổng thu</string>
+    <string name="total_expense">Tổng chi</string>
+    <string name="hello">Xin chào!</string>
+    <string name="name_ac">Tên tài khoản</string>
+    <string name="total_amout">Tổng số dư</string>
+    <string name="RES">Tình hình thu chi</string>
+    <string name="month1">Tháng 1/2026</string>
+    <string name="income">Tổng thu</string>
+    <string name="expense">Tổng chi</string>
+    <string name="difference">Chênh lệch</string>
+    <string name="money_wait">Tiền thưởng đang chờ đợi! </string>
+    <string name="fr">Mời bạn bè và kiếm tới 50k cho mỗi người dùng mới đăng ký.</string>
+    <string name="nameApp">FinanceApp</string>
+    <string name="login">Đăng nhập</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="next">Tiếp tục</string>
+    <string name="or">or</string>
+    <string name="register">Tạo tài khoản</string>
+    <string name="setting">Cài đặt chung</string>
+    <string name="setting_data">Cài đặt dữ liệu</string>
+    <string name="invite_fr">Giới thiệu cho bạn</string>
+    <string name="evaluate">Đánh giá</string>
+    <string name="comment">Góp ý với nhà phát triển</string>
+    <string name="support">Trợ giúp và thông tin</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="signup">Đăng ký</string>
+    <string name="name">Họ và tên</string>
+    <string name="password1">Mật khẩu</string>
+    <string name="repassword">Nhắc lại mật khẩu</string>
+    <string name="money">Số tiền</string>
+    <string name="pick_date">Chọn ngày</string>
+    <string name="dateH">20/01/2026</string>
+    <string name="five">5000000đ</string>
+    <string name="home">Trang chủ</string>
+    <string name="add">Thêm</string>
+    <string name="history1">Lịch sử</string>
+    <string name="profile">Cá nhân</string>
+
+
+
+
+
+
+
+
+
+
 </resources>

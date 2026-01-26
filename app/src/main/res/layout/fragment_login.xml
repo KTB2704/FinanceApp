@@ -1,14 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.auth.login.LoginFragment">
-
-
-    <LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context=".ui.auth.login.LoginFragment"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,9 +23,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-
+                android:contentDescription="@null"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.571" />
+                app:layout_constraintVertical_bias="0.571"
+                tools:ignore="VisualLintBounds" />
 
             <TextView
                 android:id="@+id/textViewTitle"
@@ -39,7 +37,7 @@
                 android:shadowDx="0"
                 android:shadowDy="4"
                 android:shadowRadius="8"
-                android:text="FinanceApp"
+                android:text="@string/nameApp"
                 android:textColor="#FFFFFF"
                 android:textSize="52sp"
                 android:textStyle="bold"
@@ -61,7 +59,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đăng nhập"
+                android:text="@string/login"
                 android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +87,8 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Email" />
+                    android:hint="@string/email"
+                    tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -107,8 +106,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:hint="Mật khẩu"
-                    android:inputType="textPassword" />
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -119,9 +119,10 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="30dp"
                 android:backgroundTint="@color/black"
-                android:text="Tiếp tục"
+                android:text="@string/next"
                 android:textSize="17sp"
-                app:cornerRadius="8dp" />
+                app:cornerRadius="8dp"
+                tools:ignore="VisualLintButtonSize" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -131,7 +132,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="30dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="TextSizeCheck">
 
                 <View
                     android:layout_width="0dp"
@@ -144,9 +146,10 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingHorizontal="8dp"
-                    android:text="or"
+                    android:text="@string/or"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:ignore="TextContrastCheck" />
 
                 <View
                     android:layout_width="0dp"
@@ -165,11 +168,12 @@
                 android:layout_marginRight="30dp"
                 android:backgroundTint="@color/gray_white"
                 android:gravity="center"
-                android:text="Tạo tài khoản"
+                android:text="@string/register"
                 android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                app:cornerRadius="8dp" />
+                app:cornerRadius="8dp"
+                tools:ignore="VisualLintButtonSize,VisualLintBounds" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -181,10 +185,10 @@
                 android:layout_marginRight="36dp"
                 android:gravity="center"
                 android:text="@string/terms_text"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:ignore="VisualLintBounds" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</FrameLayout>

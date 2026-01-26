@@ -1,13 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
-
-    <ScrollView
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,10 +26,12 @@
                     android:layout_width="74dp"
                     android:layout_height="72dp"
                     android:layout_marginStart="6dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/user_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ImageContrastCheck" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -40,9 +40,10 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:layout_weight="1"
-                    android:text="Xin chào!"
+                    android:text="@string/hello"
                     app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TextSizeCheck" />
 
                 <TextView
                     android:id="@+id/txtName"
@@ -50,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="26dp"
-                    android:text="Tên tài khoản"
+                    android:text="@string/name_ac"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -63,11 +64,13 @@
                     android:layout_marginEnd="6dp"
                     android:layout_marginBottom="2dp"
                     android:background="@drawable/bg_constraint_radius"
+                    android:contentDescription="@null"
                     android:src="@drawable/search_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/imageView4"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.526" />
+                    app:layout_constraintVertical_bias="0.526"
+                    tools:ignore="ImageContrastCheck" />
 
                 <ImageView
                     android:id="@+id/imageView4"
@@ -79,7 +82,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.508" />
+                    app:layout_constraintVertical_bias="0.508"
+                    android:contentDescription="@null"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -102,19 +106,20 @@
                         android:id="@+id/textView3"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:padding="10dp"
-                        android:text="Tổng số dư"
+                        android:text="@string/total_amout"
                         android:textColor="#8A8A8A"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/txtTotal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:padding="10dp"
-                        android:text="0đ"
+                        android:text="@string/zero_currency"
                         android:textColor="#1E3A5F"
                         android:textSize="45sp" />
                 </LinearLayout>
@@ -129,11 +134,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="14dp"
-                        android:text="Tổng thu"
+                        android:text="@string/total_income"
                         android:textColor="#8A8A8A"
                         android:textSize="17sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/txtIncome"
@@ -141,10 +147,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:text="0đ"
+                        android:text="@string/zero_currency"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtTotalAmount"
+                        tools:ignore="TextContrastCheck"
                         tools:textColor="#2E7D32" />
 
                     <TextView
@@ -153,11 +160,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="123dp"
-                        android:text="Tổng chi"
+                        android:text="@string/total_expense"
                         android:textColor="#8A8A8A"
                         android:textSize="17sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/txtExpense"
@@ -165,14 +173,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:gravity="end"
-                        android:text="0đ"
-                        android:textAlignment="viewStart"
+                        android:text="@string/zero_currency"
                         android:textColor="#C62828"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/textView8"
-                        app:layout_constraintTop_toBottomOf="@id/textView8" />
+                        app:layout_constraintTop_toBottomOf="@id/textView8"
+                        tools:ignore="TextContrastCheck" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -199,12 +206,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tình hình thu chi"
+                        android:text="@string/RES"
                         android:textColor="#1E3A5F"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
-                    <!-- CHỌN THÁNG -->
                     <LinearLayout
                         android:id="@+id/layoutMonthFilter"
                         android:layout_width="wrap_content"
@@ -219,27 +225,29 @@
                         <ImageView
                             android:layout_width="18dp"
                             android:layout_height="18dp"
-                            android:src="@drawable/date_icon" />
+                            android:contentDescription="@null"
+                            android:src="@drawable/date_icon"
+                            tools:ignore="ImageContrastCheck" />
 
                         <TextView
                             android:id="@+id/txtSelectedMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:text="Tháng 1/2026"
+                            android:text="@string/month1"
                             android:textColor="#277290"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="TextContrastCheck" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- CONTENT -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_marginTop="16dp"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
-                    <!-- BAR -->
                     <LinearLayout
                         android:layout_width="60dp"
                         android:layout_height="match_parent"
@@ -276,9 +284,10 @@
                             <TextView
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
-                                android:text="Thu"
+                                android:text="@string/income"
                                 android:textColor="#8A8A8A"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                tools:ignore="TextSizeCheck,TextContrastCheck" />
 
                             <TextView
                                 android:id="@+id/txtIncomeD"
@@ -286,7 +295,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="0 đ"
+                                android:text="@string/zero_currency1"
                                 android:textColor="#2E7D32"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -299,9 +308,10 @@
                             <TextView
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
-                                android:text="Chi"
+                                android:text="@string/expense"
                                 android:textColor="#8A8A8A"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                tools:ignore="TextSizeCheck,TextContrastCheck" />
 
                             <TextView
                                 android:id="@+id/txtExpenseD"
@@ -309,7 +319,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="0 đ"
+                                android:text="@string/zero_currency1"
                                 android:textColor="#C62828"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -327,9 +337,10 @@
                             <TextView
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
-                                android:text="Chênh lệch"
+                                android:text="@string/difference"
                                 android:textColor="#8A8A8A"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                tools:ignore="TextSizeCheck,TextContrastCheck" />
 
                             <TextView
                                 android:id="@+id/txtBalance"
@@ -337,7 +348,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="0 đ"
+                                android:text="@string/zero_currency1"
                                 android:textColor="#1E3A5F"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -361,7 +372,9 @@
                     android:id="@+id/imageView5"
                     android:layout_width="103dp"
                     android:layout_height="132dp"
-                    android:src="@drawable/loudspeaker_icon" />
+                    android:contentDescription="@null"
+                    android:src="@drawable/loudspeaker_icon"
+                    tools:ignore="ImageContrastCheck" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -374,23 +387,23 @@
                         android:layout_height="53dp"
                         android:layout_marginTop="15dp"
                         android:gravity="center"
-                        android:text="Tiền thưởng đang chờ đợi!"
+                        android:text="@string/money_wait"
                         android:textColor="#8A8A8A"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/textView11"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="25dp"
-                        android:paddingRight="6dp"
-                        android:text="Mời bạn bè và kiếm tới 50k cho mỗi người dùng mới đăng ký."
-                        android:textColor="#8A8A8A" />
+                        android:paddingStart="25dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/fr"
+                        android:textColor="#8A8A8A"
+                        tools:ignore="TextContrastCheck" />
                 </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-
-</FrameLayout>
