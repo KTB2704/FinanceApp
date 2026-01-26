@@ -8,11 +8,10 @@ import retrofit2.http.POST
 
 interface ChatBotApiService {
 
-    @POST("webhook/67220706-a76e-4e78-bb28-682a80ea8210")
+    @POST("webhook/a35cd300-b0fe-43b4-906a-488dc32c452d")
     suspend fun sendMessage(
         @Body request: ChatBotRequest
     ): Response<ChatBotResponse>
-
 
 
 

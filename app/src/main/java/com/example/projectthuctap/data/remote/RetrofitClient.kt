@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://ktb27042004.app.n8n.cloud/"
+    private const val BASE_URL = "https://trhg141104.app.n8n.cloud/"
 
     val client = OkHttpClient.Builder()
         .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)

@@ -21,10 +21,6 @@ class TransactionViewModel : ViewModel() {
     val message = MutableLiveData<String>()
     val success = MutableLiveData<Boolean>()
 
-    private val _adjustPreview = MutableLiveData<Pair<Double, String>>()
-
-    val adjustPreview: LiveData<Pair<Double, String>> = _adjustPreview
-
     private var currentBalance: Double = 0.0
 
     private val _totalBalance = MutableLiveData<Double>()
@@ -57,34 +53,31 @@ class TransactionViewModel : ViewModel() {
         filteredCategories.value = list.filter { it.type == type }
     }
 
-    private fun filterCategories(type: String) {
-        val list = allCategories.value ?: return
-        filteredCategories.value = list.filter { it.type == type }
-    }
-
-
     fun saveTransaction(
         amount: String,
         note: String,
         time: Long
     ) {
+
+        val category = selectedCategory.value
+
+        if (category == null) {
+            message.value = "Vui lòng chọn hạng mục"
+            return
+        }
+
         repo.saveTransaction(
             amountStr = amount,
             note = note,
             time = time,
             type = transactionType.value ?: "expense",
-            category = selectedCategory.value,
+            category = category,
             onSuccess = {
                 success.value = true
                 message.value = "Đã lưu giao dịch"
             },
             onError = { message.value = it }
         )
-
-    }
-
-    fun setCurrentBalance(balance: Double) {
-        currentBalance = balance
     }
 
     fun loadCurrentBalance() {
@@ -94,28 +87,11 @@ class TransactionViewModel : ViewModel() {
         }
     }
 
-    fun calculateAdjust(realBalanceStr: String) {
 
-        val realBalance = realBalanceStr
-            .replace("đ", "")
-            .replace(".", "")
-            .replace(",", "")
-            .trim()
-            .toDoubleOrNull() ?: return
-
-        val diff = realBalance - currentBalance
-
-        if (diff == 0.0) {
-            _adjustPreview.value = 0.0 to "none"
-            return
-        }
-
-        val type = if (diff > 0) "income" else "expense"
-
-        _adjustPreview.value = kotlin.math.abs(diff) to type
+    fun resetForm() {
+        selectedCategory.value = null
+        transactionType.value = "expense"
     }
-
-
 
 
 }

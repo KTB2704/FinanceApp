@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/tvAmount"
-            android:layout_width="85dp"
+            android:layout_width="match_parent"
             android:layout_height="37dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="2dp"
