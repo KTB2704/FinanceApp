@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.projectthuctap.AuthActivity
+import com.example.projectthuctap.R
 import com.example.projectthuctap.base.BaseFragment
 import com.example.projectthuctap.databinding.FragmentProfileBinding
 import com.example.projectthuctap.ui.auth.AuthViewModel
 import com.example.projectthuctap.ui.home.HomeViewModel
+import com.example.projectthuctap.ui.reminders.ReminderFragment
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
@@ -29,13 +31,22 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         observeViewModel()
         setupClick()
-
+        openReminder()
         homeViewModel.loadUser()
     }
 
     private fun setupClick() {
         binding.btnLogOut.setOnClickListener {
             authViewModel.logout()
+        }
+    }
+
+    private fun openReminder() {
+        binding.txtReminder.setOnClickListener {
+            navigate(
+                fragment = ReminderFragment(),
+                containerId = R.id.fragment_container
+            )
         }
     }
 

@@ -6,4 +6,8 @@
     <color name="pastel">#D7CCC8</color>
     <color name="income_color">#2E7D32</color>
     <color name="expense_color">#E53935</color>
+    <color name="finance_blue_200">#B3D4FC</color>
+    <color name="finance_blue_500">#1E5BB8</color>
+    <color name="finance_blue_700">#153E8A</color>
+
 </resources>

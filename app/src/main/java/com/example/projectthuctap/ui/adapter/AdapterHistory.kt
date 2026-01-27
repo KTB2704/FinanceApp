@@ -1,5 +1,6 @@
 package com.example.projectthuctap.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     private val list = mutableListOf<Transaction>()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(data: List<Transaction>) {
         list.clear()
         list.addAll(data)

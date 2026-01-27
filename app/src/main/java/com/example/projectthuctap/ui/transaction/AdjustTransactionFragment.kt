@@ -121,29 +121,13 @@ class AdjustTransactionFragment :
 
         binding.edtDateTime.setOnClickListener {
 
-            DatePickerDialog(
-                requireContext(),
-                { _, y, m, d ->
-                    calendar.set(y, m, d)
-
-                    TimePickerDialog(
-                        requireContext(),
-                        { _, h, min ->
-                            calendar.set(Calendar.HOUR_OF_DAY, h)
-                            calendar.set(Calendar.MINUTE, min)
-                            setDefaultDateTime()
-                        },
-                        calendar.get(Calendar.HOUR_OF_DAY),
-                        calendar.get(Calendar.MINUTE),
-                        true
-                    ).show()
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            showDateTimePicker(calendar.timeInMillis) { time ->
+                calendar.timeInMillis = time
+                setDefaultDateTime()
+            }
         }
     }
+
 
     private fun setDefaultDateTime() {
         binding.edtDateTime.setText(

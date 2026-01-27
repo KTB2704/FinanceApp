@@ -37,7 +37,6 @@
     <string name="select_date">Chọn ngày</string>
     <string name="note">Ghi chú</string>
     <string name="save">Lưu lại</string>
-
     <string name="back">Quay lại</string>
     <string name="money_icon">Biểu tượng tiền</string>
     <string name="date_icon">Biểu tượng ngày</string>
@@ -66,7 +65,7 @@
     <string name="or">or</string>
     <string name="register">Tạo tài khoản</string>
     <string name="setting">Cài đặt chung</string>
-    <string name="setting_data">Cài đặt dữ liệu</string>
+    <string name="setting_data">Nhắc nhở</string>
     <string name="invite_fr">Giới thiệu cho bạn</string>
     <string name="evaluate">Đánh giá</string>
     <string name="comment">Góp ý với nhà phát triển</string>
@@ -84,14 +83,14 @@
     <string name="add">Thêm</string>
     <string name="history1">Lịch sử</string>
     <string name="profile">Cá nhân</string>
-
-
-
-
-
-
-
-
+    <string name="reminder">Nhắc nhở</string>
+    <string name="add_reminder">Thêm nhắc nhở</string>
+    <string name="edit_reminder">Sửa nhắc nhở</string>
+    <string name="title">Tiêu đề</string>
+    <string name="description">Mô tả</string>
+    <string name="name_item_remind">Đóng tiền điện</string>
+    <string name="due">ĐẾN HẠN</string>
+    <string name="overdue">Hạn: 30/01/2026</string>
 
 
 </resources>
