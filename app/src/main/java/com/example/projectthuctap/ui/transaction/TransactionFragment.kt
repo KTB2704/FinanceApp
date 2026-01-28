@@ -1,14 +1,12 @@
 package com.example.projectthuctap.ui.transaction
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.projectthuctap.R
 import com.example.projectthuctap.base.BaseFragment
@@ -22,7 +20,7 @@ import java.util.*
 class TransactionFragment :
     BaseFragment<FragmentTransactionBinding>() {
 
-    private lateinit var viewModel: TransactionViewModel
+    private val viewModel: TransactionViewModel by viewModels()
 
     private val calendar = Calendar.getInstance()
     private var isCategoryVisible = true
@@ -36,9 +34,6 @@ class TransactionFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel =
-            ViewModelProvider(this)[TransactionViewModel::class.java]
 
         setupRecyclerView()
         setupToggle()

@@ -1,7 +1,5 @@
 package com.example.projectthuctap.ui.transaction
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.projectthuctap.R
 import com.example.projectthuctap.base.BaseFragment
@@ -25,7 +23,7 @@ import java.util.Locale
 class AdjustTransactionFragment :
     BaseFragment<FragmentAdjustTransactionBinding>() {
 
-    private lateinit var viewModel: AdjustTransactionViewModel
+    private val viewModel: AdjustTransactionViewModel by viewModels()
 
     private val calendar = Calendar.getInstance()
     private var adjustAmount = 0.0
@@ -40,8 +38,6 @@ class AdjustTransactionFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel =
-            ViewModelProvider(this)[AdjustTransactionViewModel::class.java]
 
         setupSpinner()
         setupRecyclerView()
