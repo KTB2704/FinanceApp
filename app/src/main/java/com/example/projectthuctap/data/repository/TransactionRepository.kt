@@ -225,6 +225,111 @@ class TransactionRepository {
             }
     }
 
+    fun deleteTransaction(
+        transaction: Transaction,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val userId = SessionManager.userId ?: run {
+            onError("Chưa đăng nhập")
+            return
+        }
+
+        val budgetRef = db.getReference("users/$userId/profile/budget")
+
+        budgetRef.get().addOnSuccessListener { snap ->
+            val currentBudget = snap.getValue(Double::class.java) ?: 0.0
+
+            val newBudget =
+                if (transaction.type == "expense")
+                    currentBudget + transaction.amount
+                else
+                    currentBudget - transaction.amount
+
+            val updates = hashMapOf<String, Any?>(
+                "/users/$userId/profile/budget" to newBudget,
+                "/transactions/$userId/${transaction.id}" to null
+            )
+
+            db.reference.updateChildren(updates)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { onError("Xoá thất bại") }
+        }
+    }
+
+
+    fun updateTransaction(
+        oldTransaction: Transaction,
+        newAmountStr: String,
+        newNote: String,
+        newTime: Long,
+        newType: String,
+        newCategory: Category?,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val userId = SessionManager.userId ?: run {
+            onError("Chưa đăng nhập")
+            return
+        }
+
+        val newAmount = newAmountStr.toDoubleOrNull()
+        if (newAmount == null || newAmount <= 0) {
+            onError("Số tiền không hợp lệ")
+            return
+        }
+
+        if (newCategory == null) {
+            onError("Chưa chọn hạng mục")
+            return
+        }
+
+        val budgetRef = db.getReference("users/$userId/profile/budget")
+
+        budgetRef.get().addOnSuccessListener { snap ->
+            val currentBudget = snap.getValue(Double::class.java) ?: 0.0
+
+            val revertBudget =
+                if (oldTransaction.type == "expense")
+                    currentBudget + oldTransaction.amount
+                else
+                    currentBudget - oldTransaction.amount
+
+            val finalBudget =
+                if (newType == "expense")
+                    revertBudget - newAmount
+                else
+                    revertBudget + newAmount
+
+            if (finalBudget < 0) {
+                onError("Ngân sách không đủ")
+                return@addOnSuccessListener
+            }
+
+            val updatedTransaction = oldTransaction.copy(
+                amount = newAmount,
+                note = newNote,
+                timestamp = newTime,
+                type = newType,
+                categoryId = newCategory.id,
+                categoryName = newCategory.name,
+                categoryIcon = newCategory.icon
+            )
+
+            val updates = hashMapOf<String, Any>(
+                "/users/$userId/profile/budget" to finalBudget,
+                "/transactions/$userId/${oldTransaction.id}" to updatedTransaction
+            )
+
+            db.reference.updateChildren(updates)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { onError("Cập nhật thất bại") }
+        }
+    }
+
+
+
+
 
 
 }

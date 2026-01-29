@@ -14,7 +14,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+class HistoryAdapter(
+    private val onEditClick: (Transaction) -> Unit,
+    private val onDeleteClick: (Transaction) -> Unit
+) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     private val list = mutableListOf<Transaction>()
 
@@ -31,6 +34,9 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
         val tvNote: TextView = view.findViewById(R.id.tvNote)
         val tvDate: TextView = view.findViewById(R.id.tvDate)
         val tvAmount: TextView = view.findViewById(R.id.tvAmount)
+
+        val btnEdit: ImageView = view.findViewById(R.id.btnEdit)
+        val btnDelete: ImageView = view.findViewById(R.id.btnDel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -77,5 +83,14 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
         if (resId != 0) {
             holder.imgCate.setImageResource(resId)
         }
+
+        holder.btnEdit.setOnClickListener {
+            onEditClick(item)
+        }
+
+        holder.btnDelete.setOnClickListener {
+            onDeleteClick(item)
+        }
     }
 }
+

@@ -3,6 +3,7 @@ package com.example.projectthuctap.viewmodel
 import Category
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.projectthuctap.data.model.Transaction
 import com.example.projectthuctap.data.repository.CategoryRepository
 import com.example.projectthuctap.data.repository.TransactionRepository
 
@@ -29,11 +30,17 @@ class TransactionViewModel : ViewModel() {
         )
     }
 
-    fun setTransactionType(type: String) {
+    fun setTransactionType(type: String, isEdit: Boolean = false) {
         transactionType.value = type
-        selectedCategory.value = null
+
+        if (!isEdit) {
+            selectedCategory.value = null
+        }
+
         filterCategory()
     }
+
+
 
     fun selectCategory(category: Category) {
         selectedCategory.value = category
@@ -72,6 +79,34 @@ class TransactionViewModel : ViewModel() {
         )
     }
 
+    fun updateTransaction(
+        oldTransaction: Transaction,
+        amount: String,
+        note: String,
+        time: Long
+    ) {
 
+        val category = selectedCategory.value ?: Category(
+            id = oldTransaction.categoryId,
+            name = oldTransaction.categoryName,
+            icon = oldTransaction.categoryIcon,
+            type = oldTransaction.type
+        )
 
+        repo.updateTransaction(
+            oldTransaction = oldTransaction,
+            newAmountStr = amount,
+            newNote = note,
+            newTime = time,
+            newType = transactionType.value ?: oldTransaction.type,
+            newCategory = category,
+            onSuccess = {
+                success.value = true
+                message.value = "Cập nhật thành công"
+            },
+            onError = {
+                message.value = it
+            }
+        )
+    }
 }

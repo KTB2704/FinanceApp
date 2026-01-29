@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.projectthuctap.R
 import com.example.projectthuctap.base.BaseFragment
+import com.example.projectthuctap.data.model.Transaction
 import com.example.projectthuctap.databinding.FragmentHistoryBinding
 import com.example.projectthuctap.ui.adapter.HistoryAdapter
+import com.example.projectthuctap.ui.transaction.EditTransactionFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.Calendar
 
@@ -35,7 +38,27 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     }
 
     private fun setupRecyclerView() {
-        adapter = HistoryAdapter()
+
+        adapter = HistoryAdapter(
+
+            onEditClick = { transaction: Transaction ->
+
+                val bundle = Bundle().apply {
+                    putSerializable("transaction", transaction)
+                }
+
+                navigate(
+                    fragment = EditTransactionFragment().apply {
+                        arguments = bundle
+                    },
+                    containerId = R.id.fragment_container
+                )
+            },
+
+            onDeleteClick = { transaction: Transaction ->
+                viewModel.deleteTransaction(transaction)
+            }
+        )
 
         binding.rvHistoryT.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -81,6 +104,5 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
 
             viewModel.loadByMonth(month, year)
         }
-
     }
 }

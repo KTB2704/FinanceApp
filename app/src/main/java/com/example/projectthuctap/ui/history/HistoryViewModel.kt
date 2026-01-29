@@ -40,4 +40,14 @@ class HistoryViewModel : ViewModel() {
             expense.value = exp
         }
     }
+
+    fun deleteTransaction(transaction: Transaction) {
+        repo.deleteTransaction(
+            transaction,
+            onSuccess = { loadData() },
+            onError = { }
+        )
+    }
+
+
 }
