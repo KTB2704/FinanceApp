@@ -57,6 +57,10 @@ class EditTransactionFragment :
                 )
             }
         }
+
+        binding.btnBack.setOnClickListener {
+            popBack()
+        }
     }
 
 
@@ -91,7 +95,6 @@ class EditTransactionFragment :
 
                     updateAmountColor(type)
 
-                    // Nếu là lần load đầu tiên (edit) thì không reset category
                     viewModel.setTransactionType(type, isFirstLoad)
                 }
 
@@ -158,8 +161,6 @@ class EditTransactionFragment :
             if (it == true) popBack()
         }
     }
-
-    // ---------------- Load Old Data ----------------
 
     private fun loadOldData(
         transaction: Transaction,

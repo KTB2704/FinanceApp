@@ -48,6 +48,4 @@ class HistoryViewModel : ViewModel() {
             onError = { }
         )
     }
-
-
 }

@@ -14,10 +14,18 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/back"
+            android:src="@drawable/back_icon" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:layout_marginBottom="16dp"
             app:cardBackgroundColor="#D4DFF8"
             app:cardCornerRadius="20dp"
@@ -43,6 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginTop="8dp"
+                    android:autofillHints="edtAmount"
                     android:background="@null"
                     android:gravity="center"
                     android:hint="@string/zero_currency"
@@ -50,7 +59,6 @@
                     android:textColorHint="#E53935"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:autofillHints="edtAmount"
                     tools:ignore="VisualLintTextFieldSize" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

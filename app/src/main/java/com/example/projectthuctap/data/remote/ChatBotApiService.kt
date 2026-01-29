@@ -12,8 +12,5 @@ interface ChatBotApiService {
     suspend fun sendMessage(
         @Body request: ChatBotRequest
     ): Response<ChatBotResponse>
-
-
-
 }
 
